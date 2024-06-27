@@ -7,11 +7,12 @@ import { View } from "react-native";
 import SendRequest from "../screens/SendRequest";
 import SendResponse from "../screens/SendResponse";
 import { NavigationParam } from "../types/Navigation";
+import { useUserStore } from "../store/userStore";
 
 const StackMain = createNativeStackNavigator<NavigationParam.Root>();
 const StackAuth = createNativeStackNavigator<NavigationParam.Auth>();
 const RootNavigator = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const isLogin = useUserStore((state) => state.isLogin);
   return isLogin ? (
     <StackMain.Navigator>
       <StackMain.Screen name="TabNav" component={TabNavigator} />
