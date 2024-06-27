@@ -14,7 +14,7 @@ const StackAuth = createNativeStackNavigator<NavigationParam.Auth>();
 const RootNavigator = () => {
   const isLogin = useUserStore((state) => state.isLogin);
   return isLogin ? (
-    <StackMain.Navigator>
+    <StackMain.Navigator screenOptions={{ headerShown: false }}>
       <StackMain.Screen name="TabNav" component={TabNavigator} />
       <StackMain.Screen name="SendRequest" component={SendRequest} />
       <StackMain.Screen name="SendResponse" component={SendResponse} />

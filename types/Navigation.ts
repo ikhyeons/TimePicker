@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { MaterialBottomTabScreenProps } from "@react-navigation/material-bottom-tabs";
+import { MaterialBottomTabScreenProps } from "react-native-paper/react-navigation";
 
 export namespace NavigationParam {
   export type all = Auth | Root | Main;
