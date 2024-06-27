@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TabNavigator from "./TabNavigator";
-import Login from "../screens/Login";
-import Join from "../screens/Join";
-import { View } from "react-native";
-import SendRequest from "../screens/SendRequest";
-import SendResponse from "../screens/SendResponse";
+import Login from "../screens/Auth/Login";
+import Join from "../screens/Auth/Join";
+
+import SendRequest from "../screens/main/SendRequest";
+import SendResponse from "../screens/main/SendResponse";
 import { NavigationParam } from "../types/Navigation";
 import { useUserStore } from "../store/userStore";
 

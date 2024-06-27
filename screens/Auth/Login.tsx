@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { AFC } from "../types/Navigation";
+import { AFC } from "../../types/Navigation";
 import styled from "styled-components/native";
-import TextInput from "../components/input/TextInput";
-import Btn from "../components/btn/Btn";
-import SocialLoginBtn from "../components/btn/SocialLoginBtn";
-import Logo from "../components/logo/Logo";
-import { useUserStore } from "../store/userStore";
+import TextInput from "../../components/input/TextInput";
+import Btn from "../../components/btn/Btn";
+import SocialLoginBtn from "../../components/btn/SocialLoginBtn";
+import Logo from "../../components/logo/Logo";
+import { useUserStore } from "../../store/userStore";
 
 const SContainer = styled.View`
   flex: 1;
