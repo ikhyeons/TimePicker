@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AFC } from "../../types/Navigation";
+import { AuthSNFC } from "../../types/Navigation";
 import styled from "styled-components/native";
 import TextInput from "../../components/input/TextInput";
 import Btn from "../../components/btn/Btn";
@@ -25,7 +25,7 @@ const SSocialBtnContainer = styled.View`
   margin-top: 10px;
 `;
 
-const Login: AFC<"Login"> = ({ navigation: navigate }) => {
+const Login: AuthSNFC<"Login"> = ({ navigation }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -47,7 +47,7 @@ const Login: AFC<"Login"> = ({ navigation: navigate }) => {
   }
 
   function goJoin() {
-    navigate.navigate("Join");
+    navigation.navigate("Join");
   }
 
   return (
@@ -76,6 +76,7 @@ const Login: AFC<"Login"> = ({ navigation: navigate }) => {
 
       <SSocialBtnContainer>
         <SocialLoginBtn text="구글 로그인" />
+        <SocialLoginBtn text="카카오 로그인" />
       </SSocialBtnContainer>
     </SContainer>
   );
