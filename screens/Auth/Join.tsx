@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components/native";
 import TextInput from "../../components/input/TextInput";
-import { BTN_lg } from "../../style/size";
 import Btn from "../../components/btn/Btn";
 import { AuthSNFC } from "../../types/Navigation";
 
-const View = styled.View``;
 const Text = styled.Text``;
 const Container = styled.View`
   flex: 1;
