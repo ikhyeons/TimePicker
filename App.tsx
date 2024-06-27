@@ -3,15 +3,18 @@ import { StatusBar } from "expo-status-bar";
 import RootNavigator from "./navigator/RootNavigator";
 import { NavigationContainer } from "@react-navigation/native";
 import Loading from "./components/loading/Loading";
+import { useLoadStore } from "./store/loadStore";
 export default function App() {
-  const [isLoadingEnd, setIsLoadingEnd] = useState(false);
+  const isLoading = useLoadStore((state) => state.isLoading);
+  const setLoadingFalse = useLoadStore((state) => state.setLoadingFalse);
+
   useEffect(() => {
     setTimeout(() => {
-      setIsLoadingEnd(true);
+      setLoadingFalse();
     }, 1000);
   }, []);
 
-  if (!isLoadingEnd) {
+  if (isLoading) {
     return <Loading />;
   }
   return (
