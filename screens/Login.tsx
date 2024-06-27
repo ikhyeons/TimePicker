@@ -5,7 +5,7 @@ import TextInput from "../components/input/TextInput";
 import Btn from "../components/btn/Btn";
 import SocialLoginBtn from "../components/btn/SocialLoginBtn";
 import Logo from "../components/logo/Logo";
-import Loading from "../components/loading/Loading";
+import { useUserStore } from "../store/userStore";
 
 const SContainer = styled.View`
   flex: 1;
@@ -28,6 +28,9 @@ const SSocialBtnContainer = styled.View`
 const Login: AFC<"Login"> = ({ navigation: navigate }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  const login = useUserStore((state) => state.login);
+
   function emailSubmit() {
     console.log("Email done, value : ", email);
   }
@@ -46,6 +49,7 @@ const Login: AFC<"Login"> = ({ navigation: navigate }) => {
   function goJoin() {
     navigate.navigate("Join");
   }
+
   return (
     <SContainer>
       <SLogoContainer>
@@ -67,7 +71,7 @@ const Login: AFC<"Login"> = ({ navigation: navigate }) => {
 
       <SBtnContainer>
         <Btn text="회원가입" onPress={goJoin} size="md" />
-        <Btn text="로그인" size="md" />
+        <Btn text="로그인" onPress={login} size="md" />
       </SBtnContainer>
 
       <SSocialBtnContainer>
