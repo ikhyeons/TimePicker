@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import TextInput from "../../components/input/TextInput";
 import { BTN_lg } from "../../style/size";
 import Btn from "../../components/btn/Btn";
-import { AFC } from "../../types/Navigation";
+import { AuthSNFC } from "../../types/Navigation";
 
 const View = styled.View``;
 const Text = styled.Text``;
@@ -12,7 +12,7 @@ const Container = styled.View`
   justify-content: center;
   align-items: center;
 `;
-const Join: AFC<"Join"> = ({ navigation: navigate }) => {
+const Join: AuthSNFC<"Join"> = ({ navigation }) => {
   const [name, setName] = useState("");
   const [birth, setBirth] = useState("");
   const [email, setEmail] = useState("");
@@ -20,7 +20,7 @@ const Join: AFC<"Join"> = ({ navigation: navigate }) => {
   const [pwCheck, setPwCheck] = useState("");
 
   function goLogin() {
-    navigate.navigate("Login");
+    navigation.navigate("Login");
   }
 
   function onChangeName(text: string) {
