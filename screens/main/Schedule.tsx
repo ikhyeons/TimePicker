@@ -1,10 +1,13 @@
 import React from "react";
-import { View, Text } from "react-native";
-const Schedule = () => {
+import { View, Text, TouchableOpacity } from "react-native";
+import { MainBTNFC } from "../../types/Navigation";
+import { useUserStore } from "../../store/userStore";
+const Schedule: MainBTNFC<"MySchedule"> = () => {
+  const logout = useUserStore((state) => state.logout);
   return (
-    <View>
-      <Text>gd</Text>
-    </View>
+    <TouchableOpacity onPress={() => logout()}>
+      <Text>로그아웃</Text>
+    </TouchableOpacity>
   );
 };
 
