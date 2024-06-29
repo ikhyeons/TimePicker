@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import RootNavigator from "./navigator/RootNavigator";
 import { NavigationContainer } from "@react-navigation/native";
@@ -11,7 +11,7 @@ export default function App() {
   useEffect(() => {
     setTimeout(() => {
       setLoadingFalse();
-    }, 1000);
+    }, 300);
   }, []);
 
   if (isLoading) {
