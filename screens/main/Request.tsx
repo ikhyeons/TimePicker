@@ -1,20 +1,13 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components/native";
-import HCardList from "../../components/card/HCardList";
+
 import Header from "../../components/header/Header";
 import Add from "../../components/add/Add";
-import { SwiperFlatList } from "react-native-swiper-flatlist";
-
 import { TabView, SceneMap } from "react-native-tab-view";
-
-import {
-  dummyDecidedRequest,
-  dummyGetRequest,
-  dummyMyRequest,
-} from "../../dummy";
 import VCardList from "../../components/card/VCardList";
-
-import { FULL_WIDTH } from "../../style/size";
+import dummyDecidedRequest from "../../components/dummyData/decidedRequest";
+import dummyMyRequest from "../../components/dummyData/myRequest";
+import dummyGetRequest from "../../components/dummyData/getRequest";
 
 const Container = styled.View`
   flex: 1;
@@ -22,22 +15,6 @@ const Container = styled.View`
 const MyContainer = styled.View`
   flex: 1;
 `;
-
-const BtnContainer = styled.View`
-  width: ${FULL_WIDTH}px;
-  flex-direction: row;
-`;
-
-const Btn = styled.TouchableOpacity<{ index: number; current: number }>`
-  justify-content: center;
-  align-items: center;
-  background-color: ${(prop) =>
-    prop.index == prop.current ? "gold" : "yellow"};
-  flex: 1;
-  height: 40px;
-`;
-
-const BtnText = styled.Text``;
 
 const Request = () => {
   const [index, setIndex] = React.useState(0);

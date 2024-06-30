@@ -4,7 +4,6 @@ import styled from "styled-components/native";
 const View = styled.View`
   height: 50px;
   background-color: red;
-  margin-bottom: 20px;
 `;
 
 const Add = () => {
