@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components/native";
-
 import user from "../../components/dummyData/user";
-
-import { FlatList } from "react-native";
 import { useFriendStore } from "../../store/friendStore";
 import { useGroupStore } from "../../store/groupStore";
 import { DraxList, DraxView } from "react-native-drax";
@@ -46,9 +43,6 @@ const FriendList = () => {
           <DraxView
             key={item.id}
             longPressDelay={300}
-            onDragStart={() => {
-              console.log("start");
-            }}
             dragPayload={item.id}
             renderContent={() => (
               <View>
