@@ -42,7 +42,6 @@ const GroupList = () => {
         keyExtractor={(data) => `${data.id}`}
         renderItem={({ item }) => (
           <DraxView
-            style={{ backgroundColor: "blue" }}
             onReceiveDragEnter={({ dragged: { payload } }) => {
               console.log(`hello ${payload}`);
             }}
