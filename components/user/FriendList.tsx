@@ -3,9 +3,16 @@ import styled from "styled-components/native";
 import user from "../../components/dummyData/user";
 import { useFriendStore } from "../../store/friendStore";
 import { useGroupStore } from "../../store/groupStore";
-import { DraxList, DraxView } from "react-native-drax";
-const View = styled.View``;
-const Text = styled.Text``;
+import { DraxList } from "react-native-drax";
+const View = styled.View`
+  height: 40px;
+  justify-content: center;
+  padding-left: 10px;
+`;
+
+const Text = styled.Text`
+  color: black;
+`;
 
 const Header = styled.View`
   flex-direction: row;
@@ -39,17 +46,25 @@ const FriendList = () => {
       <DraxList
         keyExtractor={(item) => `${item.id}`}
         data={userList}
+        bounces
+        itemStyles={{
+          hoverDragReleasedStyle: [{ opacity: 0 }],
+          style: [{ backgroundColor: "white" }],
+          dragReleasedStyle: [],
+          hoverDraggingStyle: [
+            { borderRadius: 5, borderWidth: 2, borderColor: "black" },
+          ],
+          draggingWithoutReceiverStyle: [{ opacity: 0 }],
+          draggingWithReceiverStyle: [{ opacity: 0 }],
+          hoverDraggingWithoutReceiverStyle: [
+            { backgroundColor: "lightyellow" },
+          ],
+          hoverDraggingWithReceiverStyle: [{ backgroundColor: "lightyellow" }],
+        }}
         renderItemContent={({ item }) => (
-          <DraxView
-            key={item.id}
-            longPressDelay={300}
-            dragPayload={item.id}
-            renderContent={() => (
-              <View>
-                <Text>{item.name}</Text>
-              </View>
-            )}
-          />
+          <View>
+            <Text>{item.name}</Text>
+          </View>
         )}
       />
     </Left>

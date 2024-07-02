@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components/native";
-import { FlatList } from "react-native";
 import userGroup from "../dummyData/userGroup";
-import Accordion from "react-native-collapsible";
-import { DraxView } from "react-native-drax";
+import { DraxList } from "react-native-drax";
 
 const Header = styled.View`
   flex-direction: row;
@@ -14,12 +12,36 @@ const Header = styled.View`
 `;
 
 const GroupBtn = styled.TouchableOpacity`
-  background-color: grey;
+  justify-content: center;
+  padding: 5px;
 `;
 const Pressable = styled.Pressable``;
 
-const View = styled.View``;
-const Text = styled.Text``;
+const View = styled.View`
+  height: 30px;
+  justify-content: center;
+  padding: 5px;
+`;
+
+const Text = styled.Text`
+  height: 30px;
+  justify-content: center;
+  padding: 5px;
+`;
+
+const MemberView = styled.View`
+  height: 30px;
+  justify-content: center;
+  padding: 5px;
+  flex: 1;
+`;
+
+const MemberText = styled.Text`
+  height: 30px;
+  justify-content: center;
+  padding: 5px;
+  padding-left: 30px;
+`;
 
 const Right = styled.View`
   flex: 1;
@@ -37,47 +59,49 @@ const GroupList = () => {
           <Text>+</Text>
         </View>
       </Header>
-      <FlatList
-        data={memberGroup}
-        keyExtractor={(data) => `${data.id}`}
-        renderItem={({ item }) => (
-          <DraxView
-            onReceiveDragEnter={({ dragged: { payload } }) => {
-              console.log(`hello ${payload}`);
-            }}
-            onReceiveDragExit={({ dragged: { payload } }) => {
-              console.log(`goodbye ${payload}`);
-            }}
-            onReceiveDragDrop={({ dragged: { payload } }) => {
-              console.log(`received ${payload}`);
-            }}
-            renderContent={() => (
-              <GroupBtn
-                onPress={() => {
-                  const newArr = [...memberGroup];
-                  newArr.map((newData) => {
-                    if (newData.id == item.id) newData.isOpen = !newData.isOpen;
-                  });
-                  setMemberGroup(newArr);
-                }}
-              >
+      {memberGroup && (
+        <DraxList
+          itemStyles={{
+            dragReleasedStyle: [],
+            receivingStyle: [{ backgroundColor: "lightgrey" }],
+          }}
+          itemsDraggable={false}
+          data={memberGroup}
+          keyExtractor={(data) => `${data.id}`}
+          renderItemContent={({ item }) => (
+            <GroupBtn
+              onPress={() => {
+                const newArr = [...memberGroup];
+                newArr.map((newData) => {
+                  if (newData.id == item.id) newData.isOpen = !newData.isOpen;
+                });
+                setMemberGroup(newArr);
+              }}
+            >
+              <View>
                 <Text>
                   {item.title}
                   {item.isOpen ? "↓" : "→"}
                 </Text>
+              </View>
 
-                <Accordion collapsed={!item.isOpen}>
+              <Pressable
+                onPress={() => {
+                  item.isOpen = !item.isOpen;
+                }}
+              >
+                {item.isOpen ? (
                   <Pressable>
                     {item.member.map((data: any, i2: number) => (
-                      <Text key={i2}>-{data.name}</Text>
+                      <MemberText key={i2}>{data.name}</MemberText>
                     ))}
                   </Pressable>
-                </Accordion>
-              </GroupBtn>
-            )}
-          />
-        )}
-      />
+                ) : null}
+              </Pressable>
+            </GroupBtn>
+          )}
+        />
+      )}
     </Right>
   );
 };
