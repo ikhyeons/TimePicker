@@ -36,6 +36,8 @@ const MemberView = styled.View`
   flex: 1;
 `;
 
+const MemberContainer = styled.View``;
+
 const MemberText = styled.Text`
   height: 30px;
   justify-content: center;
@@ -91,11 +93,11 @@ const GroupList = () => {
                 }}
               >
                 {item.isOpen ? (
-                  <Pressable>
+                  <MemberContainer>
                     {item.member.map((data: any, i2: number) => (
                       <MemberText key={i2}>{data.name}</MemberText>
                     ))}
-                  </Pressable>
+                  </MemberContainer>
                 ) : null}
               </Pressable>
             </GroupBtn>
