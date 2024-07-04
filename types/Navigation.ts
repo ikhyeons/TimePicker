@@ -1,8 +1,9 @@
+import { CompositeNavigationProp } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MaterialBottomTabScreenProps } from "react-native-paper/react-navigation";
 
 export namespace NavigationParam {
-  export type all = Auth | Root | Main;
+  export type all = Auth & Root & Main;
 
   export type Main = {
     MySchedule: undefined;
@@ -15,6 +16,7 @@ export namespace NavigationParam {
     TabNav: undefined;
     SendRequest: undefined;
     SendResponse: undefined;
+    RequestDetail: undefined;
   };
   export type Auth = {
     Login: undefined;
@@ -24,7 +26,7 @@ export namespace NavigationParam {
 
 export type RootSNFC<T extends keyof NavigationParam.Root> = React.FC<
   NativeStackScreenProps<NavigationParam.Root, T>
->;
+> & { navigate: (screenName: keyof NavigationParam.Root) => void };
 
 export type AuthSNFC<T extends keyof NavigationParam.Auth> = React.FC<
   NativeStackScreenProps<NavigationParam.Auth, T>

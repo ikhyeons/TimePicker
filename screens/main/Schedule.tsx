@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text } from "react-native";
 import { MainBTNFC } from "../../types/Navigation";
 import styled from "styled-components/native";
@@ -57,24 +57,32 @@ const SecondRoute = () => <View />;
 
 const Schedule: MainBTNFC<"MySchedule"> = () => {
   const renderScene = SceneMap({
-    first: FirstRoute,
     second: SecondRoute,
+    first: FirstRoute,
   });
 
   const [index, setIndex] = useState(0);
+  const [routes] = React.useState([
+    { key: "first", title: "First" },
+    { key: "second", title: "Second" },
+  ]);
+
+  useEffect(() => {
+    setIndex(0);
+  }, []);
   return (
     <Container>
       <Header />
       <Add />
       <TabView
+        onLayout={() => {
+          setIndex(0);
+        }}
         renderScene={renderScene}
         onIndexChange={setIndex}
         navigationState={{
-          index: 2,
-          routes: [
-            { key: "first", title: "일정 보기" },
-            { key: "second", title: "달력" },
-          ],
+          index,
+          routes,
         }}
       />
     </Container>

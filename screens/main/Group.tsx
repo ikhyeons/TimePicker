@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components/native";
 import FriendList from "../../components/user/FriendList";
 import GroupList from "../../components/user/GroupList";
