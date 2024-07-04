@@ -16,18 +16,21 @@ const SInput = styled.TextInput``;
 const TextInput = (props: {
   placeholder: string;
   value: string;
-
+  multiline?: boolean;
+  numOfLine?: number;
   onSubmit?: () => void;
   onChangeText?: (string: string) => void;
 }) => {
   return (
     <SInputContainer>
       <SInput
+        multiline={props.multiline}
         placeholder={props.placeholder}
         value={props.value}
         returnKeyType="next"
         onSubmitEditing={props.onSubmit}
         onChangeText={props.onChangeText}
+        numberOfLines={props.numOfLine}
       />
     </SInputContainer>
   );

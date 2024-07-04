@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components/native";
 import { BTN_lg, BTN_md, BTN_sm, BTN_xs } from "../../style/size";
 
-const BtnContainer = styled.View<{ size: TSize }>`
+const BtnContainer = styled.View<{ size: TSize; isSelect: boolean }>`
   width: ${(prop) => {
     if (prop.size == "lg") return BTN_lg;
     else if (prop.size == "md") return BTN_md;
@@ -14,15 +14,21 @@ const BtnContainer = styled.View<{ size: TSize }>`
   border-radius: 5px;
   background-color: white;
   justify-content: center;
+  border-width: ${(prop) => (prop.isSelect ? 2 : 0)}px;
 `;
 const SBtn = styled.TouchableOpacity``;
 
 const SBtnText = styled.Text`
   text-align: center;
 `;
-const Btn = (props: { text: string; size: TSize; onPress?: () => void }) => {
+const SelectableBtn = (props: {
+  text: string;
+  size: TSize;
+  isSelect: boolean;
+  onPress?: () => void;
+}) => {
   return (
-    <BtnContainer size={props.size}>
+    <BtnContainer isSelect={props.isSelect} size={props.size}>
       <SBtn onPress={props.onPress}>
         <SBtnText>{props.text}</SBtnText>
       </SBtn>
@@ -30,4 +36,4 @@ const Btn = (props: { text: string; size: TSize; onPress?: () => void }) => {
   );
 };
 
-export default Btn;
+export default SelectableBtn;

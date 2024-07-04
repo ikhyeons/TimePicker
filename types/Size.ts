@@ -1,1 +1,1 @@
-type TSize = "lg" | "md" | "sm";
+type TSize = "lg" | "md" | "sm" | "xs";

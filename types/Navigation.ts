@@ -17,6 +17,7 @@ export namespace NavigationParam {
     SendRequest: undefined;
     SendResponse: undefined;
     RequestDetail: undefined;
+    SelectTime: undefined;
   };
   export type Auth = {
     Login: undefined;

@@ -63,8 +63,8 @@ const Schedule: MainBTNFC<"MySchedule"> = () => {
 
   const [index, setIndex] = useState(0);
   const [routes] = React.useState([
-    { key: "first", title: "First" },
-    { key: "second", title: "Second" },
+    { key: "first", title: "오늘 일정" },
+    { key: "second", title: "달력" },
   ]);
 
   useEffect(() => {

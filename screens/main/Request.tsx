@@ -77,7 +77,7 @@ const Request: MainBTNFC<"Request"> = () => {
       </MyContainer>
       <AddRequest
         onPress={() => {
-          navigation.navigate("RequestDetail");
+          navigation.navigate("SendRequest");
         }}
       >
         <AddRequestText>+</AddRequestText>

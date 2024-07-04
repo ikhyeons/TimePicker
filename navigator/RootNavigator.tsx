@@ -9,6 +9,7 @@ import SendResponse from "../screens/main/SendResponse";
 import { NavigationParam } from "../types/Navigation";
 import { useUserStore } from "../store/userStore";
 import RequestDetail from "../screens/main/RequestDetail";
+import SelectTime from "../screens/main/SelectTime";
 
 const StackMain = createNativeStackNavigator<NavigationParam.Root>();
 const StackAuth = createNativeStackNavigator<NavigationParam.Auth>();
@@ -20,6 +21,7 @@ const RootNavigator = () => {
       <StackMain.Screen name="SendRequest" component={SendRequest} />
       <StackMain.Screen name="SendResponse" component={SendResponse} />
       <StackMain.Screen name="RequestDetail" component={RequestDetail} />
+      <StackMain.Screen name="SelectTime" component={SelectTime} />
     </StackMain.Navigator>
   ) : (
     <StackAuth.Navigator>
