@@ -12,7 +12,6 @@ const TimeInput = (props: { setIsOpen: (value: boolean) => void }) => {
 
   useEffect(() => {
     if (date != null && time != null) {
-      console.log("gd");
       setDeadline(
         new Date(
           date.getFullYear(),
@@ -23,13 +22,14 @@ const TimeInput = (props: { setIsOpen: (value: boolean) => void }) => {
         )
       );
     }
-    console.log("gd");
   }, [date, time]);
 
   const setDeadline = useRequestStore((state) => state.setSendRequestDeadline);
   return (
     <View>
       <DatePicker
+        title={"년도 월일을 골라 주세요"}
+        dividerColor="red"
         modal
         date={date ? date : new Date()}
         open={isDateOpen}
@@ -44,6 +44,7 @@ const TimeInput = (props: { setIsOpen: (value: boolean) => void }) => {
         }}
       />
       <DatePicker
+        title={"시간을 골라 주세요"}
         modal
         date={date ? date : new Date()}
         mode="time"
