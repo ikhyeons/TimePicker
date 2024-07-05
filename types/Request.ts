@@ -9,6 +9,16 @@ interface IRequest {
   status: TMyRequestStatus | TGetRequestStatus;
 }
 
+type reqType = "time" | "date" | "day";
+
+interface ISendRequest {
+  title: string;
+  description: string;
+  deadline: Date;
+  receiver: string[];
+  type: string;
+}
+
 type TMyRequestStatus =
   | "opened"
   | "allResponsed"

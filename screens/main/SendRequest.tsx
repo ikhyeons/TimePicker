@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { RootSNFC } from "../../types/Navigation";
 import SelectableBtn from "../../components/btn/SelectableBtn";
 import TimeInput from "../../components/input/TimeInput";
+import { useRequestStore } from "../../store/requestStore";
 
 const View = styled.View``;
 const Text = styled.Text``;
@@ -33,17 +34,22 @@ const SendRequest = () => {
   const [sequence, setSequence] = useState<
     "type" | "title" | "desc" | "deadline" | "receiver"
   >("type");
-  const [selectedType, setSelectedType] = useState(0);
-  const [title, setTitle] = useState("");
-  const [describe, setDescribe] = useState("");
-  const [deadline, setDeadline] = useState<{
-    year: number;
-    month: number;
-    day: number;
-  }>({ year: 0, month: 0, day: 0 });
-  const [receiver, setReceiver] = useState("");
+
+  const [open, setOpen] = useState(false);
+  const { deadline, description, receiver, title, type } = useRequestStore(
+    (state) => state.sendRequestData
+  );
+
+  const setTitle = useRequestStore((state) => state.setSendRequestTitle);
+  const setReceiver = useRequestStore((state) => state.setSendRequestReceiver);
+  const setType = useRequestStore((state) => state.setSendRequestType);
+  const setDescription = useRequestStore(
+    (state) => state.setSendRequestDescription
+  );
+
   const navigation = useNavigation<RootSNFC<"SendResponse">>();
-  const typeBtnList = [
+
+  const typeBtnList: { text: string; type: reqType }[] = [
     {
       text: "시간 맞추기",
       type: "time",
@@ -73,23 +79,37 @@ const SendRequest = () => {
             numOfLine={3}
             multiline={true}
             placeholder="Describe"
-            value={describe}
-            onChangeText={setDescribe}
+            value={description}
+            onChangeText={setDescription}
           />
         </InputContainer>
 
         <InputContainer>
           <Text>마감일을 등록해주세요</Text>
           <NumInputContainer>
-            <TimeInput />
+            <Btn
+              text={`${
+                deadline
+                  ? `${deadline.getFullYear()}년 ${
+                      deadline.getMonth() + 1
+                    }월 ${deadline.getDate()}일 ${deadline.getHours()}시 ${deadline.getMinutes()}분`
+                  : "-"
+              }`}
+              size="lg"
+              onPress={() => {
+                setOpen(true);
+              }}
+            />
+            {open && <TimeInput setIsOpen={setOpen} />}
           </NumInputContainer>
         </InputContainer>
 
         <InputContainer>
           <Text>수신자를 등록해주세요</Text>
+
           <TextInput
             placeholder="수신자"
-            value={receiver}
+            value={""}
             onChangeText={setReceiver}
           />
         </InputContainer>
@@ -98,12 +118,12 @@ const SendRequest = () => {
           <BtnContainer>
             {typeBtnList.map((data, i) => (
               <SelectableBtn
-                isSelect={i == selectedType}
+                isSelect={data.type == type}
                 key={i}
                 text={data.text}
                 size="xs"
                 onPress={() => {
-                  setSelectedType(i);
+                  setType(data.type);
                 }}
               />
             ))}
