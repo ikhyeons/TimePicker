@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import styled from "styled-components/native";
 import Btn from "../../components/btn/Btn";
 import TextInput from "../../components/input/TextInput";
@@ -23,8 +22,10 @@ const InputContainer = styled.View`
   margin-bottom: 20px;
 `;
 
-const NumInputContainer = styled.View`
+const DateInputContainer = styled.View`
   flex: 1;
+  height: 50px;
+  min-height: 50px;
 `;
 const BtnContainer = styled.View`
   flex-direction: row;
@@ -83,7 +84,7 @@ const SendRequest = () => {
 
         <InputContainer>
           <Text>마감일을 등록해주세요</Text>
-          <NumInputContainer>
+          <DateInputContainer>
             <Btn
               text={`${
                 deadline
@@ -98,7 +99,7 @@ const SendRequest = () => {
               }}
             />
             {open && <TimeInput setIsOpen={setOpen} />}
-          </NumInputContainer>
+          </DateInputContainer>
         </InputContainer>
 
         <InputContainer>
@@ -127,7 +128,7 @@ const SendRequest = () => {
             ))}
           </BtnContainer>
         </InputContainer>
-        {modalOpen ? <View style={{ height: 300 }} /> : null}
+        {modalOpen ? <View style={{ height: 200 }} /> : null}
       </View>
       <TimeModal visible={modalOpen} setVisible={setModalOpen} />
     </Container>
