@@ -9,7 +9,7 @@ interface IRequest {
   status: TMyRequestStatus | TGetRequestStatus;
 }
 
-type reqType = "time" | "date" | "day";
+type reqType = "date" | "day";
 
 interface ISendRequest {
   title: string;

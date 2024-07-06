@@ -8,6 +8,7 @@ import { RootSNFC } from "../../types/Navigation";
 import SelectableBtn from "../../components/btn/SelectableBtn";
 import TimeInput from "../../components/input/TimeInput";
 import { useRequestStore } from "../../store/requestStore";
+import TimeModal from "../../components/Modal/TimeModal";
 
 const View = styled.View``;
 const Text = styled.Text``;
@@ -31,6 +32,7 @@ const BtnContainer = styled.View`
 `;
 
 const SendRequest = () => {
+  const [modalOpen, setModalOpen] = useState(false);
   const [sequence, setSequence] = useState<
     "type" | "title" | "desc" | "deadline" | "receiver"
   >("type");
@@ -51,15 +53,11 @@ const SendRequest = () => {
 
   const typeBtnList: { text: string; type: reqType }[] = [
     {
-      text: "시간 맞추기",
-      type: "time",
-    },
-    {
-      text: "날짜 맞추기",
+      text: "날짜로 맞추기",
       type: "date",
     },
     {
-      text: "요일 맞추기",
+      text: "요일로 맞추기",
       type: "day",
     },
   ];
@@ -76,7 +74,6 @@ const SendRequest = () => {
         <InputContainer>
           <Text>간단한 설명을 입력해주세요</Text>
           <TextInput
-            numOfLine={3}
             multiline={true}
             placeholder="Describe"
             value={description}
@@ -114,7 +111,7 @@ const SendRequest = () => {
           />
         </InputContainer>
         <InputContainer>
-          <Text>어떤 형식의 일정입니까</Text>
+          <Text>요청 형식을 선택해주세요</Text>
           <BtnContainer>
             {typeBtnList.map((data, i) => (
               <SelectableBtn
@@ -124,21 +121,15 @@ const SendRequest = () => {
                 size="xs"
                 onPress={() => {
                   setType(data.type);
+                  setModalOpen(true);
                 }}
               />
             ))}
           </BtnContainer>
         </InputContainer>
-        <InputContainer>
-          <Btn
-            text="시간 선택하기"
-            size="lg"
-            onPress={() => {
-              navigation.navigate("SelectTime");
-            }}
-          />
-        </InputContainer>
+        {modalOpen ? <View style={{ height: 300 }} /> : null}
       </View>
+      <TimeModal visible={modalOpen} setVisible={setModalOpen} />
     </Container>
   );
 };

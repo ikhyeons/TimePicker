@@ -23,7 +23,7 @@ export const useRequestStore = create<States & Actions>((set) => ({
     description: "",
     deadline: null,
     receiver: [],
-    type: "time",
+    type: "date",
   },
   setSendRequestTitle: (title: string) =>
     set((state) => ({
