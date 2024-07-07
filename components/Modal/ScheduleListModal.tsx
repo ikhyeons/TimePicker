@@ -8,6 +8,7 @@ import { FULL_HEIGHT, FULL_WIDTH, HALF_WIDTH } from "../../style/size";
 import { FlatList, Text, View } from "react-native";
 import { dummySchedule } from "../dummyData/schedule";
 import HorizonLine from "../HorizonLine";
+import { useSelectedRequestStore } from "../../store/selectedRequestDataRequest";
 
 const MainComponentWrap = styled.View`
   background-color: rgb(255, 255, 255);
@@ -47,6 +48,10 @@ const ScheduleListModal = (props: {
 }) => {
   const [selectedDate, setSelectedDate] = useState<MarkedDates>({});
   const [scheduleList, setScheduleList] = useState(dummySchedule);
+  const selectedRequestDate = useSelectedRequestStore(
+    (state) => state.selectedRequestData
+  );
+  const addDate = useSelectedRequestStore((state) => state.addDate);
   if (props.visible == false) return null;
 
   return (
@@ -91,6 +96,7 @@ const ScheduleListModal = (props: {
         />
         <SelectBtn
           onPress={() => {
+            addDate();
             props.setVisible(false);
           }}
         >

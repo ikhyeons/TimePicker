@@ -2,9 +2,9 @@ import { Modal } from "react-native";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { Calendar } from "react-native-calendars";
-import { MarkedDates } from "react-native-calendars/src/types";
 import Btn from "../btn/Btn";
 import GestureRecongizer from "react-native-swipe-gestures";
+import { useSelectedRequestStore } from "../../store/selectedRequestDataRequest";
 
 const ModalBackground = styled.Pressable`
   flex: 1;
@@ -37,9 +37,19 @@ const TimeModal = (props: {
   setVisible: (state: boolean) => void;
   onDatePress: (state: boolean) => void;
 }) => {
-  const [selectedDate, setSelectedDate] = useState<MarkedDates>({});
-  if (props.visible == false) return null;
+  const selectedDate = useSelectedRequestStore(
+    (state) => state.selectedRequestData
+  );
+  const setOpenedDate = useSelectedRequestStore((state) => state.setOpenedDate);
 
+  const cancelSelect = useSelectedRequestStore((state) => state.deleteDate);
+  const resetSelect = useSelectedRequestStore(
+    (state) => state.resetSelectedData
+  );
+  useEffect(() => {
+    resetSelect();
+  }, []);
+  if (props.visible == false) return null;
   return (
     <GestureRecongizer
       onSwipeDown={() => {
@@ -69,16 +79,17 @@ const TimeModal = (props: {
               </SelectedNumText>
             </CTitle>
             <Calendar
+              onDayLongPress={(day) => {
+                cancelSelect(day.dateString);
+                setOpenedDate(day.dateString);
+                selectedDate[`${day.dateString}`] == undefined &&
+                  props.onDatePress(true);
+              }}
               onDayPress={(day) => {
-                setSelectedDate((prev) => {
-                  const newData = { ...prev };
-                  newData[`${day.dateString}`] = {
-                    dotColor: "black",
-                    marked: true,
-                  };
-                  return newData;
-                });
-                props.onDatePress(true);
+                cancelSelect(day.dateString);
+                setOpenedDate(day.dateString);
+                selectedDate[`${day.dateString}`] == undefined &&
+                  props.onDatePress(true);
               }}
               markedDates={selectedDate}
               style={{
