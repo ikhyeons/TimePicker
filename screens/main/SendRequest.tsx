@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import Btn from "../../components/btn/Btn";
 import TextInput from "../../components/input/TextInput";
@@ -8,6 +8,7 @@ import SelectableBtn from "../../components/btn/SelectableBtn";
 import TimeInput from "../../components/input/TimeInput";
 import { useRequestStore } from "../../store/requestStore";
 import TimeModal from "../../components/Modal/TimeModal";
+import ScheduleListModal from "../../components/Modal/ScheduleListModal";
 
 const View = styled.View``;
 const Text = styled.Text``;
@@ -33,7 +34,8 @@ const BtnContainer = styled.View`
 `;
 
 const SendRequest = () => {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [bottomModalOpen, setBottomModalOpen] = useState(false);
+  const [rightModalOpen, setRightModalOpen] = useState(false);
   const [sequence, setSequence] = useState<
     "type" | "title" | "desc" | "deadline" | "receiver"
   >("type");
@@ -122,15 +124,23 @@ const SendRequest = () => {
                 size="xs"
                 onPress={() => {
                   setType(data.type);
-                  setModalOpen(true);
+                  setBottomModalOpen(true);
                 }}
               />
             ))}
           </BtnContainer>
         </InputContainer>
-        {modalOpen ? <View style={{ height: 200 }} /> : null}
+        {bottomModalOpen ? <View style={{ height: 200 }} /> : null}
       </View>
-      <TimeModal visible={modalOpen} setVisible={setModalOpen} />
+      <TimeModal
+        visible={bottomModalOpen}
+        setVisible={setBottomModalOpen}
+        onDatePress={setRightModalOpen}
+      />
+      <ScheduleListModal
+        visible={rightModalOpen}
+        setVisible={setRightModalOpen}
+      />
     </Container>
   );
 };
