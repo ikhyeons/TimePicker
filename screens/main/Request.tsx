@@ -63,7 +63,7 @@ const Request: MainBTNFC<"Request"> = () => {
 
   return (
     <Container>
-      <Header />
+      {/* <Header /> */}
       <Add />
       <MyContainer>
         <TabView

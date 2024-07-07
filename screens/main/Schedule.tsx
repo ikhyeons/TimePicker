@@ -72,7 +72,7 @@ const Schedule: MainBTNFC<"MySchedule"> = () => {
   }, []);
   return (
     <Container>
-      <Header />
+      {/* <Header /> */}
       <Add />
       <TabView
         onLayout={() => {

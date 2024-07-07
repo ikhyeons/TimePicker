@@ -16,8 +16,6 @@ const MainComponentWrap = styled.View`
 
 const MainComponent = styled.View`
   padding: 5px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
   background: rgb(255, 255, 255);
 `;
 
@@ -31,7 +29,8 @@ const CTitle = styled.View`
 const CalendarText = styled.Text``;
 
 const SelectedNumText = styled.Text``;
-const TimeModal = (props: {
+
+const ScheduleListModal = (props: {
   visible: boolean;
   setVisible: (state: boolean) => void;
 }) => {
@@ -84,4 +83,4 @@ const TimeModal = (props: {
   );
 };
 
-export default TimeModal;
+export default ScheduleListModal;

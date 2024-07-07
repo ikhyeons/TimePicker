@@ -30,7 +30,7 @@ const History = () => {
 
   return (
     <Container>
-      <Header />
+      {/* <Header /> */}
       <Add />
       <MyContainer>
         <VCardList data={myRequestList} />
