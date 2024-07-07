@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const Container = styled.View`
   position: relative;
+  background-color: white;
   flex: 1;
 `;
 const MyContainer = styled.View`

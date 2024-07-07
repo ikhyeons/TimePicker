@@ -8,6 +8,7 @@ import Add from "../../components/add/Add";
 const Container = styled.View`
   flex: 1;
   flex-direction: row;
+  background-color: white;
 `;
 
 const Line = styled.View`

@@ -5,18 +5,50 @@ import { MarkedDates } from "react-native-calendars/src/types";
 import Modal from "react-native-modal";
 import Btn from "../btn/Btn";
 import { FULL_HEIGHT, FULL_WIDTH, HALF_WIDTH } from "../../style/size";
+import { FlatList, Text, View } from "react-native";
+import { dummySchedule } from "../dummyData/schedule";
+import HorizonLine from "../HorizonLine";
 
 const MainComponentWrap = styled.View`
   background-color: rgb(255, 255, 255);
+
   flex: 1;
 `;
+const TitleContainer = styled.View`
+  padding: 10px;
+`;
+const Title = styled.Text`
+  font-size: 16px;
+`;
 
+const ScheduleCard = styled.TouchableOpacity`
+  justify-content: center;
+  padding: 5px;
+`;
+const ScheduleTime = styled.Text``;
+const ScheduleTitle = styled.Text`
+  font-size: 16px;
+`;
+const ScheduleDescription = styled.Text`
+  margin: 5px 5px;
+  color: grey;
+`;
+
+const SelectBtn = styled.TouchableOpacity`
+  height: 50px;
+  width: 100%;
+  background-color: skyblue;
+  justify-content: center;
+  align-items: center;
+`;
 const ScheduleListModal = (props: {
   visible: boolean;
   setVisible: (state: boolean) => void;
 }) => {
   const [selectedDate, setSelectedDate] = useState<MarkedDates>({});
+  const [scheduleList, setScheduleList] = useState(dummySchedule);
   if (props.visible == false) return null;
+
   return (
     <Modal
       onBackdropPress={() => {
@@ -41,7 +73,30 @@ const ScheduleListModal = (props: {
       animationIn={"slideInRight"}
       animationOut={"slideOutRight"}
     >
-      <MainComponentWrap></MainComponentWrap>
+      <MainComponentWrap>
+        <TitleContainer>
+          <Title>7/11 일정 목록</Title>
+        </TitleContainer>
+        <FlatList
+          data={scheduleList}
+          ListHeaderComponent={HorizonLine}
+          ListFooterComponent={HorizonLine}
+          ItemSeparatorComponent={HorizonLine}
+          renderItem={({ item, index }) => (
+            <ScheduleCard>
+              <ScheduleTitle>{item.title}</ScheduleTitle>
+              <ScheduleDescription>{item.description}</ScheduleDescription>
+            </ScheduleCard>
+          )}
+        />
+        <SelectBtn
+          onPress={() => {
+            props.setVisible(false);
+          }}
+        >
+          <Text>이 날짜 선택{" >"}</Text>
+        </SelectBtn>
+      </MainComponentWrap>
     </Modal>
   );
 };

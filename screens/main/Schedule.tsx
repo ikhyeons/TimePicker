@@ -15,6 +15,7 @@ const View = styled.View`
 
 const Container = styled.View`
   flex: 1;
+  background-color: white;
 `;
 
 const TimeLineContianer = styled.View`
@@ -36,8 +37,9 @@ const FirstRoute = () => (
     <TimeLineContianer>
       <Timeline
         data={dummySchedule}
-        circleSize={20}
+        circleSize={11}
         circleColor="rgb(45,156,219)"
+        innerCircle="dot"
         lineColor="rgb(45,156,219)"
         timeStyle={{
           textAlign: "center",
@@ -57,8 +59,8 @@ const SecondRoute = () => <View />;
 
 const Schedule: MainBTNFC<"MySchedule"> = () => {
   const renderScene = SceneMap({
-    second: SecondRoute,
     first: FirstRoute,
+    second: SecondRoute,
   });
 
   const [index, setIndex] = useState(0);

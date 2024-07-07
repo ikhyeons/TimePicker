@@ -11,6 +11,7 @@ import VCardList from "../../components/card/VCardList";
 
 const Container = styled.View`
   flex: 1;
+  background-color: white;
 `;
 const MyContainer = styled.View`
   flex: 1;
