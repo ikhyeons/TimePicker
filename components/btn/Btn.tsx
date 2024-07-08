@@ -1,6 +1,13 @@
 import React from "react";
 import styled from "styled-components/native";
-import { BTN_lg, BTN_md, BTN_sm, BTN_xl, BTN_xs } from "../../style/size";
+import {
+  BTN_lg,
+  BTN_md,
+  BTN_sm,
+  BTN_xl,
+  BTN_xs,
+  BTN_xxs,
+} from "../../style/size";
 
 const BtnContainer = styled.View<{ size: TSize }>`
   width: ${(prop) => {
@@ -8,7 +15,8 @@ const BtnContainer = styled.View<{ size: TSize }>`
     else if (prop.size == "lg") return BTN_lg;
     else if (prop.size == "md") return BTN_md;
     else if (prop.size == "sm") return BTN_sm;
-    else return BTN_xs;
+    else if (prop.size == "xs") return BTN_xs;
+    else return BTN_xxs;
   }}px;
   margin: 5px;
   padding: 10px 5px;

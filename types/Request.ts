@@ -2,6 +2,7 @@ interface IRequest {
   id: number;
   image: typeof require;
   title: string;
+  description: string;
   type: string;
   expireDate: string;
   order: string;
@@ -9,7 +10,7 @@ interface IRequest {
   status: TMyRequestStatus | TGetRequestStatus;
 }
 
-type reqType = "date" | "day";
+type reqType = "date" | "day" | null;
 
 interface ISendRequest {
   title: string;

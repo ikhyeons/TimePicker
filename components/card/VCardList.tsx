@@ -18,12 +18,14 @@ const SepView = styled.View`
   margin-bottom: 10px;
 `;
 
-const VCardList = (props: { data: IRequest[] }) => {
+const VCardList = (props: { data: IRequest[]; navigator: any }) => {
   return (
     <View>
       <FlatList
         data={props.data}
-        renderItem={({ item }) => <LRequestCard data={item} />}
+        renderItem={({ item }) => (
+          <LRequestCard navigator={props.navigator} data={item} />
+        )}
         bounces
         keyExtractor={(item, index) => `${index}`}
         ItemSeparatorComponent={HorizonLine}

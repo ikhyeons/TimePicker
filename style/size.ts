@@ -13,4 +13,5 @@ export const BTN_lg = (FULL_WIDTH * 3) / 4;
 export const BTN_md = (FULL_WIDTH * 3) / 8 - 5;
 export const BTN_sm = FULL_WIDTH / 3 - 5;
 export const BTN_xs = FULL_WIDTH / 4 - 5;
+export const BTN_xxs = FULL_WIDTH / 8 - 5;
 export default {};

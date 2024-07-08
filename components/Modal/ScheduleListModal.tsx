@@ -6,7 +6,7 @@ import Modal from "react-native-modal";
 import Btn from "../btn/Btn";
 import { FULL_HEIGHT, FULL_WIDTH, HALF_WIDTH } from "../../style/size";
 import { FlatList, Text, View } from "react-native";
-import { dummySchedule } from "../dummyData/schedule";
+import { dummySchedule } from "../../dummyData/schedule";
 import HorizonLine from "../HorizonLine";
 import { useSelectedRequestStore } from "../../store/selectedRequestDataRequest";
 

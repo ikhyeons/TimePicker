@@ -79,12 +79,16 @@ const Order = styled.Text`
   margin-left: 3px;
 `;
 
-const LRequestCard = (props: { data: IRequest }) => {
+const LRequestCard = (props: { data: IRequest; navigator: any }) => {
   const memberNum = props.data.member.length;
   const resNum = props.data.member.filter((data, i) => data.isResponse).length;
 
   return (
-    <Card>
+    <Card
+      onPress={() => {
+        props.navigator("RequestDetail");
+      }}
+    >
       {/* {<Image
         borderRadius={35}
         resizeMode="contain"

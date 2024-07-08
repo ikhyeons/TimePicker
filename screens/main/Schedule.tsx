@@ -6,7 +6,7 @@ import Timeline from "react-native-timeline-flatlist";
 import Header from "../../components/header/Header";
 import Add from "../../components/add/Add";
 import time from "../../utils/time";
-import { dummySchedule } from "../../components/dummyData/schedule";
+import { dummySchedule } from "../../dummyData/schedule";
 import { SceneMap, TabView } from "react-native-tab-view";
 
 const View = styled.View`
@@ -57,7 +57,7 @@ const FirstRoute = () => (
 );
 const SecondRoute = () => <View />;
 
-const Schedule: MainBTNFC<"MySchedule"> = () => {
+const Schedule: MainBTNFC<"MySchedule"> = ({ navigation }) => {
   const renderScene = SceneMap({
     first: FirstRoute,
     second: SecondRoute,

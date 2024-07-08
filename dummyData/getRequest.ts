@@ -1,11 +1,12 @@
 export const getRequest: IRequest[] = [
   {
     id: 1,
-    image: require("./../../public/pngwing.png"),
+    image: require("./../public/pngwing.png"),
     title: "미팅 일정 시간 조율",
     type: "meeting",
     expireDate: "2024-07-03 20:30:00",
     order: "류창완",
+    description: "흠",
     member: [
       { name: "성익현", isResponse: true },
       { name: "류창완", isResponse: false },
@@ -15,11 +16,12 @@ export const getRequest: IRequest[] = [
   },
   {
     id: 1,
-    image: require("./../../public/pngwing.png"),
+    image: require("./../public/pngwing.png"),
     title: "회의 일정 시간 조율",
     type: "meeting",
     expireDate: "2024-08-05 20:30:00",
     order: "장민욱",
+    description: "흠",
     member: [
       { name: "성익현", isResponse: true },
       { name: "류창완", isResponse: true },
@@ -29,11 +31,12 @@ export const getRequest: IRequest[] = [
   },
   {
     id: 1,
-    image: require("./../../public/pngwing.png"),
+    image: require("./../public/pngwing.png"),
     title: "회의 일정 시간 조율",
     type: "meeting",
     expireDate: "2024-08-05 20:30:00",
     order: "류창완",
+    description: "흠",
     member: [
       { name: "성익현", isResponse: false },
       { name: "류창완", isResponse: true },
@@ -43,11 +46,12 @@ export const getRequest: IRequest[] = [
   },
   {
     id: 1,
-    image: require("./../../public/pngwing.png"),
+    image: require("./../public/pngwing.png"),
     title: "회의 일정 시간 조율",
     type: "meeting",
     expireDate: "2024-08-05 20:30:00",
     order: "장민욱",
+    description: "흠",
     member: [
       { name: "성익현", isResponse: true },
       { name: "류창완", isResponse: false },
@@ -57,11 +61,12 @@ export const getRequest: IRequest[] = [
   },
   {
     id: 1,
-    image: require("./../../public/pngwing.png"),
+    image: require("./../public/pngwing.png"),
     title: "회의 일정 시간 조율",
     type: "meeting",
     expireDate: "2024-08-05 20:30:00",
     order: "류창완",
+    description: "흠",
     member: [
       { name: "성익현", isResponse: true },
       { name: "류창완", isResponse: false },

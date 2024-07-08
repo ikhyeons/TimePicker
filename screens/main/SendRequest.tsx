@@ -9,6 +9,7 @@ import TimeInput from "../../components/input/TimeInput";
 import { useRequestStore } from "../../store/requestStore";
 import TimeModal from "../../components/Modal/TimeModal";
 import ScheduleListModal from "../../components/Modal/ScheduleListModal";
+import { BTN_xxs } from "../../style/size";
 
 const View = styled.View``;
 const Text = styled.Text``;
@@ -33,6 +34,25 @@ const BtnContainer = styled.View`
   padding: 0 10px;
 `;
 
+const DayContainer = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+const DayBtn = styled.TouchableOpacity<{ isSelect: boolean }>`
+  width: ${BTN_xxs}px;
+  border-radius: 5px;
+  border-width: 1px;
+  border-color: ${(prop) => (prop.isSelect ? "black" : "lightgrey")};
+  padding: 5px;
+  margin: 5px;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+`;
+
+const DayBtnText = styled.Text``;
 const SendRequest = () => {
   const [bottomModalOpen, setBottomModalOpen] = useState(false);
   const [rightModalOpen, setRightModalOpen] = useState(false);
@@ -51,19 +71,52 @@ const SendRequest = () => {
   const setDescription = useRequestStore(
     (state) => state.setSendRequestDescription
   );
+  const [isSelectDayOpen, setIsSelectDayOpen] = useState(false);
 
+  const [selectedDay, setSelectedDay] = useState([
+    { day: "일", isSelected: false },
+    { day: "월", isSelected: false },
+    { day: "화", isSelected: false },
+    { day: "수", isSelected: false },
+    { day: "목", isSelected: false },
+    { day: "금", isSelected: false },
+    { day: "토", isSelected: false },
+  ]);
   const navigation = useNavigation<RootSNFC<"SendResponse">>();
 
-  const typeBtnList: { text: string; type: reqType }[] = [
+  const typeBtnList: { text: string; type: reqType; onPress: () => void }[] = [
     {
       text: "날짜로 맞추기",
       type: "date",
+      onPress: () => {
+        setSelectedDay([
+          { day: "일", isSelected: false },
+          { day: "월", isSelected: false },
+          { day: "화", isSelected: false },
+          { day: "수", isSelected: false },
+          { day: "목", isSelected: false },
+          { day: "금", isSelected: false },
+          { day: "토", isSelected: false },
+        ]);
+        setType("date");
+        setIsSelectDayOpen(false);
+        setBottomModalOpen(true);
+      },
     },
     {
       text: "요일로 맞추기",
       type: "day",
+      onPress: () => {
+        if (type == "day") setType(null);
+        else setType("day");
+        setIsSelectDayOpen((prev) => !prev);
+      },
     },
   ];
+
+  useEffect(() => {
+    setType(null);
+  }, []);
 
   return (
     <Container
@@ -122,16 +175,45 @@ const SendRequest = () => {
                 key={i}
                 text={data.text}
                 size="xs"
-                onPress={() => {
-                  setType(data.type);
-                  setBottomModalOpen(true);
-                }}
+                onPress={data.onPress}
               />
             ))}
           </BtnContainer>
+          {isSelectDayOpen && (
+            <DayContainer>
+              {selectedDay.map((data, i) => (
+                <SelectableBtn
+                  size="xxs"
+                  text={data.day}
+                  key={i}
+                  isSelect={data.isSelected}
+                  onPress={() => {
+                    setSelectedDay((prev) => {
+                      let newArr = [...prev];
+                      let result = newArr.map((data2, i) => {
+                        if (data2.day == data.day)
+                          return { ...data2, isSelected: !data.isSelected };
+                        else return data2;
+                      });
+                      return result;
+                    });
+                  }}
+                />
+              ))}
+            </DayContainer>
+          )}
         </InputContainer>
-        {bottomModalOpen ? <View style={{ height: 200 }} /> : null}
+        <InputContainer>
+          <Btn
+            text="완료"
+            size="lg"
+            onPress={() => {
+              navigation.navigate("TabNav");
+            }}
+          />
+        </InputContainer>
       </View>
+
       <TimeModal
         visible={bottomModalOpen}
         setVisible={setBottomModalOpen}

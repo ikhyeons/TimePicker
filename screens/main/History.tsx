@@ -3,11 +3,13 @@ import styled from "styled-components/native";
 import Header from "../../components/header/Header";
 import Add from "../../components/add/Add";
 
-import dummyDecidedRequest from "../../components/dummyData/decidedRequest";
-import dummyMyRequest from "../../components/dummyData/myRequest";
-import dummyGetRequest from "../../components/dummyData/getRequest";
+import dummyDecidedRequest from "../../dummyData/decidedRequest";
+import dummyMyRequest from "../../dummyData/myRequest";
+import dummyGetRequest from "../../dummyData/getRequest";
 
 import VCardList from "../../components/card/VCardList";
+import Navigation, { RootSNFC } from "../../types/Navigation";
+import { useNavigation } from "@react-navigation/native";
 
 const Container = styled.View`
   flex: 1;
@@ -21,7 +23,7 @@ const BtnText = styled.Text``;
 
 const History = () => {
   const [index, setIndex] = React.useState(0);
-
+  const navigation = useNavigation<RootSNFC<"TabNav">>();
   const [myRequestList, setMyRequestList] =
     useState<IRequest[]>(dummyMyRequest);
   const [getRequestList, setGetRequestList] =
@@ -34,7 +36,7 @@ const History = () => {
       {/* <Header /> */}
       <Add />
       <MyContainer>
-        <VCardList data={myRequestList} />
+        <VCardList data={myRequestList} navigator={navigation.navigate} />
       </MyContainer>
     </Container>
   );

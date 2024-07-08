@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components/native";
-import user from "../../components/dummyData/user";
+import user from "../../dummyData/user";
 import { useFriendStore } from "../../store/friendStore";
 import { useGroupStore } from "../../store/groupStore";
 import { DraxList } from "react-native-drax";

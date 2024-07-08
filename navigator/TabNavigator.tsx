@@ -15,14 +15,24 @@ import EntypeIcon from "react-native-vector-icons/Entypo";
 const Tab = createMaterialBottomTabNavigator<NavigationParam.Main>();
 const TabNavigator = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      initialRouteName="MySchedule"
+      activeColor="#ffffff"
+      inactiveColor="#8e8e8e"
+      activeIndicatorStyle={{ backgroundColor: "white" }}
+      barStyle={{ backgroundColor: "#272727" }}
+    >
       <Tab.Screen
         name="MySchedule"
         options={{
           title: "스케쥴",
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ focused }) => (
             <View>
-              <EntypeIcon name="calendar" color={color} size={26} />
+              <EntypeIcon
+                name="calendar"
+                color={`${focused ? "black" : "#b7b7b7"}`}
+                size={26}
+              />
             </View>
           ),
         }}
@@ -32,9 +42,13 @@ const TabNavigator = () => {
         name="Request"
         options={{
           title: "요청관리",
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ focused }) => (
             <View>
-              <MaterialIcons name="timetable" color={color} size={26} />
+              <MaterialIcons
+                name="timetable"
+                color={`${focused ? "black" : "#b7b7b7"}`}
+                size={26}
+              />
             </View>
           ),
         }}
@@ -44,9 +58,13 @@ const TabNavigator = () => {
         name="History"
         options={{
           title: "히스토리",
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ focused }) => (
             <View>
-              <MaterialIcons name="history" color={color} size={26} />
+              <MaterialIcons
+                name="history"
+                color={`${focused ? "black" : "#b7b7b7"}`}
+                size={26}
+              />
             </View>
           ),
         }}
@@ -56,9 +74,13 @@ const TabNavigator = () => {
         name="Group"
         options={{
           title: "그룹관리",
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ focused }) => (
             <View>
-              <AntdIcon name="addusergroup" color={color} size={26} />
+              <AntdIcon
+                name="addusergroup"
+                color={`${focused ? "black" : "#b7b7b7"}`}
+                size={26}
+              />
             </View>
           ),
         }}

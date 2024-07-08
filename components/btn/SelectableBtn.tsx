@@ -1,13 +1,22 @@
 import React from "react";
 import styled from "styled-components/native";
-import { BTN_lg, BTN_md, BTN_sm, BTN_xs } from "../../style/size";
+import {
+  BTN_lg,
+  BTN_md,
+  BTN_sm,
+  BTN_xs,
+  BTN_xl,
+  BTN_xxs,
+} from "../../style/size";
 
 const BtnContainer = styled.View<{ size: TSize; isSelect: boolean }>`
   width: ${(prop) => {
-    if (prop.size == "lg") return BTN_lg;
+    if (prop.size == "xl") return BTN_xl;
+    else if (prop.size == "lg") return BTN_lg;
     else if (prop.size == "md") return BTN_md;
     else if (prop.size == "sm") return BTN_sm;
-    else return BTN_xs;
+    else if (prop.size == "xs") return BTN_xs;
+    else return BTN_xxs;
   }}px;
   margin: 5px;
   padding: 10px 5px;

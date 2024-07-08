@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components/native";
-import userGroup from "../dummyData/userGroup";
+import userGroup from "../../dummyData/userGroup";
 import { DraxList } from "react-native-drax";
 
 const Header = styled.View`
