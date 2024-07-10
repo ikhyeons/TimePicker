@@ -3,9 +3,7 @@ import styled from "styled-components/native";
 import Header from "../../components/header/Header";
 import Add from "../../components/add/Add";
 
-import dummyDecidedRequest from "../../dummyData/decidedRequest";
 import dummyMyRequest from "../../dummyData/myRequest";
-import dummyGetRequest from "../../dummyData/getRequest";
 
 import VCardList from "../../components/card/VCardList";
 import Navigation, { RootSNFC } from "../../types/Navigation";
@@ -26,10 +24,6 @@ const History = () => {
   const navigation = useNavigation<RootSNFC<"TabNav">>();
   const [myRequestList, setMyRequestList] =
     useState<IRequest[]>(dummyMyRequest);
-  const [getRequestList, setGetRequestList] =
-    useState<IRequest[]>(dummyGetRequest);
-  const [decidedRequestList, setDecidedRequestList] =
-    useState<IRequest[]>(dummyDecidedRequest);
 
   return (
     <Container>

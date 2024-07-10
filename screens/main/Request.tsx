@@ -5,9 +5,8 @@ import Header from "../../components/header/Header";
 import Add from "../../components/add/Add";
 import { TabView, SceneMap } from "react-native-tab-view";
 import VCardList from "../../components/card/VCardList";
-import dummyDecidedRequest from "../../dummyData/decidedRequest";
 import dummyMyRequest from "../../dummyData/myRequest";
-import dummyGetRequest from "../../dummyData/getRequest";
+
 import { MainBTNFC, RootSNFC } from "../../types/Navigation";
 import { useNavigation } from "@react-navigation/native";
 
@@ -45,10 +44,6 @@ const Request: MainBTNFC<"Request"> = () => {
 
   const [myRequestList, setMyRequestList] =
     useState<IRequest[]>(dummyMyRequest);
-  const [getRequestList, setGetRequestList] =
-    useState<IRequest[]>(dummyGetRequest);
-  const [decidedRequestList, setDecidedRequestList] =
-    useState<IRequest[]>(dummyDecidedRequest);
 
   const navigation = useNavigation<RootSNFC<"TabNav">>();
 
@@ -56,10 +51,10 @@ const Request: MainBTNFC<"Request"> = () => {
     <VCardList navigator={navigation.navigate} data={myRequestList} />
   );
   const SecondRoute = () => (
-    <VCardList navigator={navigation.navigate} data={getRequestList} />
+    <VCardList navigator={navigation.navigate} data={myRequestList} />
   );
   const ThirdRoute = () => (
-    <VCardList navigator={navigation.navigate} data={decidedRequestList} />
+    <VCardList navigator={navigation.navigate} data={myRequestList} />
   );
 
   const renderScene = SceneMap({

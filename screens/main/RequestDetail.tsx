@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Text } from "react-native-paper";
 import styled from "styled-components/native";
 import myRequest from "../../dummyData/myRequest";
-import getRequest from "../../dummyData/getRequest";
-import decidedRequest from "../../dummyData/decidedRequest";
 import Add from "../../components/add/Add";
 const Container = styled.View`
   flex: 1;
@@ -54,11 +52,10 @@ const RequestDetail = () => {
         <ExpireContainer>
           <Expire>{detail.expireDate}</Expire>
         </ExpireContainer>
-        <OrderContainer>
-          <Order>{detail.order}</Order>
-        </OrderContainer>
         <TitleContainer>
-          <Title>{detail.title}</Title>
+          <Title>
+            {detail.title} - {detail.order}
+          </Title>
         </TitleContainer>
         <DescriptionContainer>
           <Description>{detail.description}</Description>
