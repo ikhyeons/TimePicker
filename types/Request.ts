@@ -10,7 +10,13 @@ interface IRequest {
   status: TMyRequestStatus | TGetRequestStatus;
   day?: ("월" | "화" | "수" | "목" | "금" | "토" | "일")[];
   date?: string[];
-  result?: { time: string; priority: number }[];
+  result?: {
+    date?: string;
+    day?: string;
+    startTime: string;
+    endTime: string;
+    priority: number;
+  }[];
 }
 
 type reqType = "date" | "day" | null;
