@@ -3,6 +3,7 @@ import { Text } from "react-native-paper";
 import styled from "styled-components/native";
 import myRequest from "../../dummyData/myRequest";
 import Add from "../../components/add/Add";
+import DetailStateHeader from "../../components/header/DetailStateHeader";
 const Container = styled.View`
   flex: 1;
 `;
@@ -45,6 +46,7 @@ const RequestDetail = () => {
   return (
     <Container>
       <Add />
+      <DetailStateHeader data={detail} />
       <MainContainer>
         <StatusContainer>
           <Status>{detail.status}</Status>
