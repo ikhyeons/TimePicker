@@ -10,35 +10,50 @@ const Container = styled.View`
 const MainContainer = styled.View`
   flex: 1;
   justify-content: center;
-  padding-left: 20px;
+  padding: 0 20px;
 `;
-
-const TitleContainer = styled.View``;
-const Title = styled.Text``;
-
-const StatusContainer = styled.View``;
-const Status = styled.Text``;
-
-const DescriptionContainer = styled.View``;
-const Description = styled.Text``;
-
-const ExpireContainer = styled.View``;
-const Expire = styled.Text``;
-
-const OrderContainer = styled.View``;
-const Order = styled.Text``;
 
 const TypeContainer = styled.View``;
 const Type = styled.Text``;
 
+const TitleContainer = styled.View``;
+const Title = styled.Text`
+  font-size: 22px;
+`;
+
+const DescriptionContainer = styled.View``;
+const Description = styled.Text`
+  font-size: 16px;
+  padding: 5px;
+  color: #3b3b3b;
+  margin-left: 10px;
+`;
+
+const OrderContainer = styled.View``;
+const Order = styled.Text``;
+
 const MemberContainer = styled.View`
   flex-direction: row;
+  align-items: center;
 `;
 const Member = styled.Text`
   background-color: purple;
-  margin: 0 5px;
+  margin: 0 3px;
+  color: white;
   border-radius: 15px;
-  padding: 5px;
+  padding: 2px;
+`;
+
+const ResponseContainer = styled.View``;
+
+const ReqCard = styled.TouchableOpacity`
+  width: max-content;
+  border-radius: 10px;
+  margin: 2px 0;
+  padding: 10px;
+  background-color: lightgrey;
+  border-width: 1px;
+  border-color: grey;
 `;
 
 const RequestDetail = () => {
@@ -47,29 +62,39 @@ const RequestDetail = () => {
     <Container>
       <Add />
       <DetailStateHeader data={detail} />
+
       <MainContainer>
-        <StatusContainer>
-          <Status>{detail.status}</Status>
-        </StatusContainer>
-        <ExpireContainer>
-          <Expire>{detail.expireDate}</Expire>
-        </ExpireContainer>
+        <TypeContainer>
+          <Type>{detail.reqType}</Type>
+        </TypeContainer>
         <TitleContainer>
           <Title>
             {detail.title} - {detail.order}
           </Title>
         </TitleContainer>
-        <DescriptionContainer>
-          <Description>{detail.description}</Description>
-        </DescriptionContainer>
-        <TypeContainer>
-          <Type>{detail.type}</Type>
-        </TypeContainer>
         <MemberContainer>
+          <Text style={{ fontSize: 16 }}>to : </Text>
           {detail.member.map((data, i) => (
             <Member key={i}>{data.name}</Member>
           ))}
         </MemberContainer>
+        <DescriptionContainer>
+          <Description>{detail.description}</Description>
+        </DescriptionContainer>
+
+        <ResponseContainer>
+          <Text>요청된 시간 : </Text>
+          {detail.day?.map((data, i) => (
+            <ReqCard key={i}>
+              <Text>{data}</Text>
+            </ReqCard>
+          ))}
+          {detail.date?.map((data, i) => (
+            <ReqCard key={i}>
+              <Text>{data}</Text>
+            </ReqCard>
+          ))}
+        </ResponseContainer>
       </MainContainer>
     </Container>
   );

@@ -3,7 +3,8 @@ interface IRequest {
   image: typeof require;
   title: string;
   description: string;
-  type: string;
+  reqType: string;
+  resType: "date" | "day";
   expireDate: string;
   order: string;
   member: { name: string; isResponse: boolean }[];
