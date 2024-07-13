@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 import myRequest from "../../dummyData/myRequest";
 import Add from "../../components/add/Add";
 import DetailStateHeader from "../../components/header/DetailStateHeader";
+import ResponseTimeModal from "../../components/Modal/ResponseTimeModal";
 const Container = styled.View`
   flex: 1;
 `;
@@ -57,6 +58,7 @@ const ReqCard = styled.TouchableOpacity`
 `;
 
 const RequestDetail = () => {
+  const [rightModalOpen, setRightModalOpen] = useState(false);
   const [detail, setDetail] = useState<IRequest>(myRequest[0]);
   return (
     <Container>
@@ -85,17 +87,31 @@ const RequestDetail = () => {
         <ResponseContainer>
           <Text>요청된 시간 : </Text>
           {detail.day?.map((data, i) => (
-            <ReqCard key={i}>
+            <ReqCard
+              onPress={() => {
+                setRightModalOpen(true);
+              }}
+              key={i}
+            >
               <Text>{data}</Text>
             </ReqCard>
           ))}
           {detail.date?.map((data, i) => (
-            <ReqCard key={i}>
+            <ReqCard
+              onPress={() => {
+                setRightModalOpen(true);
+              }}
+              key={i}
+            >
               <Text>{data}</Text>
             </ReqCard>
           ))}
         </ResponseContainer>
       </MainContainer>
+      <ResponseTimeModal
+        setVisible={setRightModalOpen}
+        visible={rightModalOpen}
+      />
     </Container>
   );
 };
