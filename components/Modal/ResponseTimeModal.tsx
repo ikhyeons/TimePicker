@@ -6,7 +6,16 @@ import styled from "styled-components/native";
 
 const MainComponentWrap = styled.View`
   background-color: rgb(255, 255, 255);
+  flex: 1;
+  flex-direction: row;
+`;
 
+const Time = styled.View`
+  background-color: grey;
+  flex: 1;
+`;
+const TimeConfig = styled.View`
+  background-color: #bcbcbc;
   flex: 1;
 `;
 
@@ -39,7 +48,8 @@ const ResponseTimeModal = (props: {
       animationOut={"slideOutRight"}
     >
       <MainComponentWrap>
-        <Text>gd</Text>
+        <Time />
+        <TimeConfig />
       </MainComponentWrap>
     </Modal>
   );
