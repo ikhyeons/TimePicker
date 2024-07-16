@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-native-modal";
 import { FULL_HEIGHT, FULL_WIDTH, HALF_WIDTH } from "../../style/size";
 import styled from "styled-components/native";
 import { FlatList, ScrollView, View } from "react-native";
 import { Text } from "react-native-paper";
+import { useResponseStore } from "../../store/responseStore";
 
 const MainComponentWrap = styled.View`
   background-color: rgb(255, 255, 255);
@@ -57,10 +58,7 @@ const ResponseTimeModal = (props: {
   visible: boolean;
   setVisible: (state: boolean) => void;
 }) => {
-  const hour = [
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-    21, 22, 23,
-  ];
+  const times = useResponseStore((state) => state.resTime);
 
   return (
     <Modal
@@ -94,19 +92,19 @@ const ResponseTimeModal = (props: {
           bounces={false}
           bouncesZoom={false}
           overScrollMode="never"
-          data={hour}
+          data={times}
           ListHeaderComponent={<View style={{ borderBottomWidth: 1 }} />}
           ListFooterComponent={<View style={{ borderBottomWidth: 1 }} />}
           ItemSeparatorComponent={() => (
             <View style={{ borderBottomWidth: 1 }} />
           )}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <TimeContainer>
               <HourContainer>
-                <Hour>{item}시</Hour>
+                <Hour>{index}시</Hour>
               </HourContainer>
               <Minutes>
-                {new Array(6).fill(1).map((data, i) => (
+                {item.map((data, i) => (
                   <Minute key={i} style={{ borderBottomWidth: 1 }}></Minute>
                 ))}
               </Minutes>
