@@ -47,8 +47,16 @@ const Minutes = styled.View`
   border-right-width: 1px;
   flex: 0.2;
 `;
-const Minute = styled.Text`
+
+const Minute = styled.Text<{ state: string }>`
+  border-bottom-width: 1px;
   flex: 1;
+  background-color: ${(prop) => {
+    if (prop.state == "notSelected") return "white";
+    else if (prop.state == "possible") return "lightgreen";
+    else if (prop.state == "impossible") return "red";
+    else return "yellow";
+  }};
 `;
 const Event = styled.Text`
   flex: 0.6;
@@ -59,7 +67,6 @@ const ResponseTimeModal = (props: {
   setVisible: (state: boolean) => void;
 }) => {
   const times = useResponseStore((state) => state.resTime);
-
   return (
     <Modal
       onBackdropPress={() => {
@@ -105,7 +112,7 @@ const ResponseTimeModal = (props: {
               </HourContainer>
               <Minutes>
                 {item.map((data, i) => (
-                  <Minute key={i} style={{ borderBottomWidth: 1 }}></Minute>
+                  <Minute state={data.state} key={i} />
                 ))}
               </Minutes>
 
