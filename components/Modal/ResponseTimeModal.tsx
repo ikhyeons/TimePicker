@@ -67,6 +67,27 @@ const ResponseTimeModal = (props: {
   setVisible: (state: boolean) => void;
 }) => {
   const times = useResponseStore((state) => state.resTime);
+  const setTimeState = useResponseStore((state) => state.setTimeState);
+  const setIsTimeSelect = useResponseStore((state) => state.setIsTimeSelecting);
+  const isTimeSelect = useResponseStore((state) => state.isSelecting);
+
+  const [p1, setP1] = useState({ hour: 0, min: 0 });
+  const [p2, setP2] = useState({ hour: 0, min: 0 });
+
+  function pressTimeBox(hour: number, min: number) {
+    if (!isTimeSelect) {
+      setIsTimeSelect(true);
+      setP1({ hour: hour, min: min });
+    } else {
+      setIsTimeSelect(false);
+      setP2({ hour: hour, min: min });
+    }
+  }
+
+  useEffect(() => {
+    if (isTimeSelect == false) setTimeState(p1, p2, "ambiguous");
+  }, [p1, p2]);
+
   return (
     <Modal
       onBackdropPress={() => {
@@ -112,7 +133,11 @@ const ResponseTimeModal = (props: {
               </HourContainer>
               <Minutes>
                 {item.map((data, i) => (
-                  <Minute state={data.state} key={i} />
+                  <Minute
+                    onPress={() => pressTimeBox(index, 10 * i)}
+                    state={data.state}
+                    key={i}
+                  />
                 ))}
               </Minutes>
 
