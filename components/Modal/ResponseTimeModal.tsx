@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-native-modal";
 import { FULL_HEIGHT, FULL_WIDTH, HALF_WIDTH } from "../../style/size";
 import styled from "styled-components/native";
-import { FlatList, ScrollView, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { Text } from "react-native-paper";
 import { useResponseStore } from "../../store/responseStore";
-import Btn from "../btn/Btn";
 
 const MainComponentWrap = styled.View`
   background-color: rgb(255, 255, 255);
@@ -74,21 +73,25 @@ const StateSelect = styled.View`
   border-radius: 15px;
 `;
 
+const StateBtnContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-around;
+  width: 300px;
+`;
+
 const StateButton = styled.TouchableOpacity`
   width: 70px;
-  height: 50px;
+  height: 45px;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 15px;
   background-color: lightgrey;
 `;
 
 const StateButtonText = styled.Text`
   text-align: center;
 `;
-const StateBtnContainer = styled.View`
-  flex-direction: row;
-`;
+
 const ResponseTimeModal = (props: {
   visible: boolean;
   setVisible: (state: boolean) => void;

@@ -54,10 +54,9 @@ export const useResponseStore = create<States & Actions>((set) => ({
     //해당 각 위치의 사이 상태를 전달받은 상태로 변경한다
     return set((state) => {
       const copyResTime = [...state.resTime];
-      console.log(start, end);
+
       const result = copyResTime.map((data, i) => {
         if (i > start.hour && i < end.hour) {
-          console.log("on here");
           return new Array(6)
             .fill(null)
             .map((data, i) => ({ min: 10 * i, state: minState }));
