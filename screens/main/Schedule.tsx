@@ -8,6 +8,7 @@ import Add from "../../components/add/Add";
 import time from "../../utils/time";
 import { dummySchedule } from "../../dummyData/schedule";
 import { SceneMap, TabView } from "react-native-tab-view";
+import { Calendar } from "react-native-calendars";
 
 const View = styled.View`
   flex: 1;
@@ -28,6 +29,9 @@ const TimeLineContianer = styled.View`
 const CurrentTime = styled.View`
   padding: 10px;
   background-color: grey;
+`;
+const CalendarContainer = styled.View`
+  flex: 1;
 `;
 const FirstRoute = () => (
   <View>
@@ -55,7 +59,28 @@ const FirstRoute = () => (
     </TimeLineContianer>
   </View>
 );
-const SecondRoute = () => <View />;
+const SecondRoute = () => (
+  <CalendarContainer>
+    <CurrentTime>
+      <Text>{time.currentTime()}</Text>
+    </CurrentTime>
+    <Calendar
+      onDayLongPress={(day) => {}}
+      onDayPress={(day) => {}}
+      markingType="multi-dot"
+      markedDates={{
+        "2024-07-13": {
+          dots: [{ color: "black" }, { color: "green" }],
+        },
+      }}
+      style={{
+        marginTop: 60,
+        borderBottomWidth: 1,
+        borderColor: "lightgrey",
+      }}
+    />
+  </CalendarContainer>
+);
 
 const Schedule: MainBTNFC<"MySchedule"> = ({ navigation }) => {
   const renderScene = SceneMap({
