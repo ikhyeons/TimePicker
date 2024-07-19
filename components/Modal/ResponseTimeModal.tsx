@@ -5,6 +5,7 @@ import styled from "styled-components/native";
 import { FlatList, ScrollView, View } from "react-native";
 import { Text } from "react-native-paper";
 import { useResponseStore } from "../../store/responseStore";
+import Btn from "../btn/Btn";
 
 const MainComponentWrap = styled.View`
   background-color: rgb(255, 255, 255);
@@ -55,6 +56,7 @@ const Minute = styled.Text<{ state: string }>`
     if (prop.state == "notSelected") return "white";
     else if (prop.state == "possible") return "lightgreen";
     else if (prop.state == "impossible") return "red";
+    else if (prop.state == "selected") return "lightgrey";
     else return "yellow";
   }};
 `;
@@ -62,6 +64,31 @@ const Event = styled.Text`
   flex: 0.6;
 `;
 
+const StateSelect = styled.View`
+  width: 320px;
+  height: 100px;
+  background-color: white;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 5px;
+  border-radius: 15px;
+`;
+
+const StateButton = styled.TouchableOpacity`
+  width: 70px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: lightgrey;
+`;
+
+const StateButtonText = styled.Text`
+  text-align: center;
+`;
+const StateBtnContainer = styled.View`
+  flex-direction: row;
+`;
 const ResponseTimeModal = (props: {
   visible: boolean;
   setVisible: (state: boolean) => void;
@@ -70,12 +97,18 @@ const ResponseTimeModal = (props: {
   const setTimeState = useResponseStore((state) => state.setTimeState);
   const setIsTimeSelect = useResponseStore((state) => state.setIsTimeSelecting);
   const isTimeSelect = useResponseStore((state) => state.isSelecting);
-
-  const [p1, setP1] = useState({ hour: 0, min: 0 });
-  const [p2, setP2] = useState({ hour: 0, min: 0 });
-
+  const [isSelectStateOpen, setIsSelectStateOpen] = useState(false);
+  const p1 = useResponseStore((state) => state.p1);
+  const setP1 = useResponseStore((state) => state.setP1);
+  const setP2 = useResponseStore((state) => state.setP2);
+  const p2 = useResponseStore((state) => state.p2);
+  const savePrev = useResponseStore((state) => state.savePrev);
+  const loadPrev = useResponseStore((state) => state.loadPrev);
+  StateBtnContainer;
+  const [isFirst, setIsFirst] = useState(true);
   function pressTimeBox(hour: number, min: number) {
     if (!isTimeSelect) {
+      savePrev();
       setIsTimeSelect(true);
       setP1({ hour: hour, min: min });
     } else {
@@ -85,7 +118,11 @@ const ResponseTimeModal = (props: {
   }
 
   useEffect(() => {
-    if (isTimeSelect == false) setTimeState(p1, p2, "ambiguous");
+    setIsFirst(false);
+    if (isTimeSelect == false) {
+      !isFirst && setTimeState(p1, p2, "selected");
+      !isFirst && setIsSelectStateOpen(true);
+    }
   }, [p1, p2]);
 
   return (
@@ -140,7 +177,6 @@ const ResponseTimeModal = (props: {
                   />
                 ))}
               </Minutes>
-
               <Event></Event>
             </TimeContainer>
           )}
@@ -153,6 +189,72 @@ const ResponseTimeModal = (props: {
           <Text>결정!</Text>
         </Button>
       </MainComponentWrap>
+
+      <Modal
+        onBackdropPress={() => {
+          loadPrev();
+          setIsSelectStateOpen(false);
+        }}
+        onBackButtonPress={() => {
+          loadPrev();
+          setIsSelectStateOpen(false);
+        }}
+        deviceHeight={FULL_HEIGHT}
+        deviceWidth={FULL_WIDTH}
+        isVisible={isSelectStateOpen}
+        backdropOpacity={0.1}
+        useNativeDriver
+        hideModalContentWhileAnimating
+        animationIn={"slideInUp"}
+        animationOut={"slideOutDown"}
+        style={{
+          height: FULL_HEIGHT,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <StateSelect>
+          <Text>
+            {p1.hour}시 {p1.min == 0 ? "" : `${p1.min}분`} ~{" "}
+            {p2.min == 50 ? p2.hour + 1 : p2.hour}시{" "}
+            {p2.min == 50 ? "" : `${p2.min + 10}분`}
+          </Text>
+          <StateBtnContainer>
+            <StateButton
+              onPress={() => {
+                setIsSelectStateOpen(false);
+                setTimeState(p1, p2, "possible");
+              }}
+            >
+              <StateButtonText>가능!</StateButtonText>
+            </StateButton>
+            <StateButton
+              onPress={() => {
+                setIsSelectStateOpen(false);
+                setTimeState(p1, p2, "impossible");
+              }}
+            >
+              <StateButtonText>불가능!</StateButtonText>
+            </StateButton>
+            <StateButton
+              onPress={() => {
+                setIsSelectStateOpen(false);
+                setTimeState(p1, p2, "ambiguous");
+              }}
+            >
+              <StateButtonText>모름!</StateButtonText>
+            </StateButton>
+            <StateButton
+              onPress={() => {
+                setIsSelectStateOpen(false);
+                setTimeState(p1, p2, "notSelected");
+              }}
+            >
+              <StateButtonText>선택해제!</StateButtonText>
+            </StateButton>
+          </StateBtnContainer>
+        </StateSelect>
+      </Modal>
     </Modal>
   );
 };

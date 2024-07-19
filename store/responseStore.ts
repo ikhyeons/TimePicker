@@ -1,14 +1,26 @@
 import { create } from "zustand";
 
-type minState = "notSelected" | "possible" | "impossible" | "ambiguous";
+type minState =
+  | "notSelected"
+  | "possible"
+  | "impossible"
+  | "ambiguous"
+  | "selected";
 type timeState = { min: number; state: minState };
 
 interface States {
   resTime: timeState[][];
+  prev: timeState[][];
   isSelecting: boolean;
+  p1: { hour: number; min: number };
+  p2: { hour: number; min: number };
 }
 
 interface Actions {
+  setP1: (p: { hour: number; min: number }) => void;
+  setP2: (p: { hour: number; min: number }) => void;
+  savePrev: () => void;
+  loadPrev: () => void;
   setTimeState: (
     p1: { hour: number; min: number },
     p2: { hour: number; min: number },
@@ -23,11 +35,18 @@ export const useResponseStore = create<States & Actions>((set) => ({
       .fill(null)
       .map((data, i) => ({ min: 10 * i, state: "notSelected" }))
   ),
-
+  prev: new Array(24).fill(
+    new Array(6)
+      .fill(null)
+      .map((data, i) => ({ min: 10 * i, state: "notSelected" }))
+  ),
   isSelecting: false,
 
   p1: { hour: 0, min: 0 },
   p2: { hour: 0, min: 0 },
+
+  setP1: (p) => set((state) => ({ p1: p })),
+  setP2: (p) => set((state) => ({ p2: p })),
 
   setTimeState: (p1, p2, minState) => {
     //시작과 끝을 받아서
@@ -70,6 +89,8 @@ export const useResponseStore = create<States & Actions>((set) => ({
     });
   },
   setIsTimeSelecting: (state) => set(() => ({ isSelecting: state })),
+  savePrev: () => set((state) => ({ prev: state.resTime })),
+  loadPrev: () => set((state) => ({ resTime: state.prev })),
 }));
 
 //  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ내부 함수ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
