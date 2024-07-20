@@ -17,6 +17,10 @@ import {
   HALF_HEIGHT,
   HALF_WIDTH,
 } from "../../style/size";
+import TimeInput from "../../components/input/TimeInput";
+import DatePicker from "react-native-date-picker";
+import TextInput from "../../components/input/TextInput";
+import Btn from "../../components/btn/Btn";
 
 const View = styled.View`
   flex: 1;
@@ -44,7 +48,7 @@ const CalendarContainer = styled.View`
 
 const BottomModalWrap = styled.View`
   position: absolute;
-  width: ${(HALF_WIDTH * 8) / 5 - 10}px;
+  width: ${FULL_WIDTH}px;
   bottom: 0px;
   height: ${HALF_HEIGHT}px;
   background-color: white;
@@ -70,6 +74,42 @@ const AddScheduleBtn = styled.TouchableOpacity`
 `;
 const AddScheduleBtnText = styled.Text``;
 
+const CloseText = styled.Text`
+  color: lightgrey;
+  font-size: 14px;
+`;
+
+const MainComponentWrap = styled.View`
+  position: absolute;
+  bottom: 0;
+  background-color: rgb(255, 255, 255);
+  justify-content: end;
+  align-items: end;
+  width: ${HALF_WIDTH * 1.6}px;
+  height: ${HALF_HEIGHT}px;
+`;
+
+const AddScheduleContainer = styled.View`
+  background-color: lightblue;
+
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+`;
+const InputContainer = styled.View`
+  margin-bottom: 10px;
+  background-color: #6fd0f1;
+  border-radius: 10px;
+`;
+const InputTimeBtn = styled.TouchableOpacity`
+  background-color: white;
+  border-color: #6fd0f1;
+  border-width: 5px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+`;
+const InputTimeBtnText = styled.Text``;
 const FirstRoute = () => (
   <View>
     <CurrentTime>
@@ -99,6 +139,11 @@ const FirstRoute = () => (
 const SecondRoute = () => {
   const [isBottomOn, setIsBottomOn] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
+  const [isAddSchedultOn, setIsAddScheduleOn] = useState(false);
+  const [isTimeInputOpen, setIsTimeInputOpen] = useState(false);
+  const [scheduleTime, setScheduleTime] = useState("");
+  const [scheduleTitle, setScheduleTitle] = useState("");
+  const [scheduleDescription, setScheduleDescription] = useState("");
   return (
     <CalendarContainer>
       <CurrentTime>
@@ -126,8 +171,8 @@ const SecondRoute = () => {
         }}
       />
       <GestureRecongizer
-        onSwipeRight={() => {
-          setIsBottomOn(false);
+        onSwipeDown={() => {
+          if (!isAddSchedultOn) setIsBottomOn(false);
         }}
       >
         <Modal
@@ -143,37 +188,132 @@ const SecondRoute = () => {
           backdropOpacity={0.1}
           style={{
             height: FULL_HEIGHT,
-            width: (HALF_WIDTH * 8) / 5 - 10,
+            width: FULL_WIDTH,
             margin: 0,
-            marginLeft: FULL_WIDTH - (HALF_WIDTH * 8) / 5 + 10,
           }}
           useNativeDriver
           hideModalContentWhileAnimating
-          animationIn={"slideInRight"}
-          animationOut={"slideOutRight"}
+          animationIn={"slideInUp"}
+          animationOut={"slideOutDown"}
         >
           <BottomModalWrap>
             <ModalHeader>
               <ModalHeaderText>{selectedDate}</ModalHeaderText>
+              <CloseText>↓아래로 밀어서 닫기↓</CloseText>
             </ModalHeader>
             <FlatList
               overScrollMode="never"
               style={{ padding: 10, flex: 1, paddingVertical: 0 }}
-              data={[
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-                18, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-                17, 18,
-              ]}
-              renderItem={() => <Text>09:30 국군 도수 체조</Text>}
+              data={dummySchedule}
+              renderItem={({ item, index }) => (
+                <>
+                  <Text style={{ fontSize: 16, fontWeight: 600 }}>
+                    {item.time} &nbsp;
+                    {item.title}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 500,
+                      marginTop: -3,
+                      marginLeft: 20,
+                      marginBottom: 5,
+                      color: "lightgrey",
+                    }}
+                  >
+                    {item.description}
+                  </Text>
+                </>
+              )}
             />
             <AddScheduleBtn
               onPress={() => {
-                setIsBottomOn(false);
+                setIsAddScheduleOn(true);
               }}
             >
               <AddScheduleBtnText>일정 추가</AddScheduleBtnText>
             </AddScheduleBtn>
           </BottomModalWrap>
+          <Modal
+            onBackdropPress={() => {
+              setIsAddScheduleOn(false);
+            }}
+            onBackButtonPress={() => {
+              setIsAddScheduleOn(false);
+            }}
+            deviceHeight={FULL_HEIGHT}
+            deviceWidth={FULL_WIDTH}
+            isVisible={isAddSchedultOn}
+            backdropOpacity={0.1}
+            style={{
+              height: FULL_HEIGHT,
+              width: HALF_WIDTH * 1.6,
+              margin: 0,
+              marginLeft: FULL_WIDTH - HALF_WIDTH * 1.6,
+            }}
+            swipeDirection="right"
+            onSwipeComplete={() => setIsAddScheduleOn(false)}
+            useNativeDriver
+            hideModalContentWhileAnimating
+            animationIn={"slideInRight"}
+            animationOut={"slideOutRight"}
+          >
+            <MainComponentWrap>
+              <AddScheduleContainer>
+                <InputTimeBtn
+                  onPress={() => {
+                    setIsTimeInputOpen(true);
+                  }}
+                >
+                  <InputTimeBtnText>
+                    {scheduleTime.length != 0
+                      ? scheduleTime
+                      : "시간을 입력해주세요"}
+                  </InputTimeBtnText>
+                </InputTimeBtn>
+
+                <DatePicker
+                  title={"시간을 골라 주세요"}
+                  dividerColor="red"
+                  modal
+                  date={new Date()}
+                  open={isTimeInputOpen}
+                  mode="time"
+                  onConfirm={(date) => {
+                    setIsTimeInputOpen(false);
+                    setScheduleTime(
+                      `${date.getHours()}시 ${date.getMinutes()}분`
+                    );
+                  }}
+                  onCancel={() => setIsTimeInputOpen(false)}
+                />
+
+                <InputContainer>
+                  <TextInput
+                    placeholder="제목을 입력하세요"
+                    value={scheduleTitle}
+                    onChangeText={setScheduleTitle}
+                  />
+                </InputContainer>
+                <InputContainer>
+                  <TextInput
+                    placeholder="내용을 입력하세요"
+                    multiline
+                    numOfLine={4}
+                    value={scheduleDescription}
+                    onChangeText={setScheduleDescription}
+                  />
+                </InputContainer>
+                <Btn
+                  size="sm"
+                  text="추가하기"
+                  onPress={() => {
+                    setIsAddScheduleOn(false);
+                  }}
+                />
+              </AddScheduleContainer>
+            </MainComponentWrap>
+          </Modal>
         </Modal>
       </GestureRecongizer>
     </CalendarContainer>
