@@ -12,7 +12,6 @@ import { useSelectedRequestStore } from "../../store/selectedRequestDataRequest"
 
 const MainComponentWrap = styled.View`
   background-color: rgb(255, 255, 255);
-
   flex: 1;
 `;
 const TitleContainer = styled.View`
@@ -74,6 +73,7 @@ const ScheduleListModal = (props: {
         margin: 0,
         marginLeft: FULL_WIDTH - (HALF_WIDTH * 8) / 5,
       }}
+      useNativeDriver
       hideModalContentWhileAnimating
       animationIn={"slideInRight"}
       animationOut={"slideOutRight"}
@@ -84,6 +84,7 @@ const ScheduleListModal = (props: {
         </TitleContainer>
         <FlatList
           data={scheduleList}
+          overScrollMode="never"
           ListHeaderComponent={HorizonLine}
           ListFooterComponent={HorizonLine}
           ItemSeparatorComponent={HorizonLine}
