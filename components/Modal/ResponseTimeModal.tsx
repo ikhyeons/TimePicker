@@ -49,7 +49,10 @@ const Minutes = styled.View`
 `;
 
 const Minute = styled.Text<{ state: string }>`
-  border-bottom-width: 1px;
+  border-width: 1px;
+  border-style: ${(prop) => {
+    return prop.state == "selected" ? "dashed" : "solid";
+  }};
   flex: 1;
   background-color: ${(prop) => {
     if (prop.state == "notSelected") return "white";
@@ -107,16 +110,18 @@ const ResponseTimeModal = (props: {
   const p2 = useResponseStore((state) => state.p2);
   const savePrev = useResponseStore((state) => state.savePrev);
   const loadPrev = useResponseStore((state) => state.loadPrev);
+  const onSelectStarted = useResponseStore((state) => state.onSelectingStarted);
   StateBtnContainer;
   const [isFirst, setIsFirst] = useState(true);
   function pressTimeBox(hour: number, min: number) {
     if (!isTimeSelect) {
       savePrev();
+      onSelectStarted({ hour, min });
       setIsTimeSelect(true);
-      setP1({ hour: hour, min: min });
+      setP1({ hour, min });
     } else {
       setIsTimeSelect(false);
-      setP2({ hour: hour, min: min });
+      setP2({ hour, min });
     }
   }
 

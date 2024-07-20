@@ -21,6 +21,7 @@ interface Actions {
   setP2: (p: { hour: number; min: number }) => void;
   savePrev: () => void;
   loadPrev: () => void;
+  onSelectingStarted: (p: { hour: number; min: number }) => void;
   setTimeState: (
     p1: { hour: number; min: number },
     p2: { hour: number; min: number },
@@ -35,6 +36,7 @@ export const useResponseStore = create<States & Actions>((set) => ({
       .fill(null)
       .map((data, i) => ({ min: 10 * i, state: "notSelected" }))
   ),
+
   prev: new Array(24).fill(
     new Array(6)
       .fill(null)
@@ -47,7 +49,24 @@ export const useResponseStore = create<States & Actions>((set) => ({
 
   setP1: (p) => set((state) => ({ p1: p })),
   setP2: (p) => set((state) => ({ p2: p })),
+  onSelectingStarted: ({ hour, min }) =>
+    set((state) => {
+      const copyResTime = [...state.resTime];
+      const result = copyResTime.map((data, i) => {
+        if (i == hour) {
+          return data.map((data2, i) => {
+            if (i * 10 == min)
+              return { min: 10 * i, state: "selected" } as timeState;
+            return data2;
+          });
+        }
+        return data;
+      });
 
+      return {
+        resTime: result,
+      };
+    }),
   setTimeState: (p1, p2, minState) => {
     //시작과 끝을 받아서
     const { start, end } = getStart(p1, p2);
