@@ -3,6 +3,8 @@ import styled from "styled-components/native";
 import TextInput from "../../components/input/TextInput";
 import Btn from "../../components/btn/Btn";
 import { AuthSNFC } from "../../types/Navigation";
+import { useQuery } from "react-query";
+import { joinMember } from "../../apis/memberApi";
 
 const Text = styled.Text``;
 const Container = styled.View`
@@ -17,8 +19,18 @@ const Join: AuthSNFC<"Join"> = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [pwCheck, setPwCheck] = useState("");
 
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["join"],
+    queryFn: () => joinMember(email, password, name),
+    enabled: false,
+  });
+
+  if (isLoading) return <Text>가입 시도 중!</Text>;
+  if (error) return <Text>An error has occurred</Text>;
+
   function goLogin() {
-    navigation.navigate("Login");
+    refetch();
+    //if (!isLoading) navigation.navigate("Login");
   }
 
   function onChangeName(text: string) {
@@ -74,7 +86,7 @@ const Join: AuthSNFC<"Join"> = ({ navigation }) => {
         onChangeText={onChangePwCheck}
         onSubmit={onSubmit}
       />
-      <Btn text="가입완료!" onPress={goLogin} size="lg" />
+      <Btn text="가입하기!" onPress={goLogin} size="lg" />
     </Container>
   );
 };
