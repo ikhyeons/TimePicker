@@ -35,3 +35,4 @@ yarn-error.*
 *.tsbuildinfo
 secrets/apiURL.js
 app.json
+secrets/apiURL.ts
