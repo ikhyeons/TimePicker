@@ -1,10 +1,10 @@
 import axios from "axios";
-import { base_url } from "../secrets/apiURL";
+import { BASE_URL } from "../secrets/apiURL";
 
 export function joinMember(id: string, password: string, name: string) {
   axios
     .post(
-      `${base_url}/member/join`,
+      `${BASE_URL}/member/join`,
       {
         mid: id,
         password,
