@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AuthSNFC } from "../../types/Navigation";
 import styled from "styled-components/native";
 import TextInput from "../../components/input/TextInput";
 import Btn from "../../components/btn/Btn";
 import SocialLoginBtn from "../../components/btn/SocialLoginBtn";
 import Logo from "../../components/logo/Logo";
+import { useQuery } from "react-query";
+import { login } from "../../apis/memberApi";
 import { useUserStore } from "../../store/userStore";
+import { Text } from "react-native";
 
 const SContainer = styled.View`
   flex: 1;
@@ -26,24 +29,26 @@ const SSocialBtnContainer = styled.View`
 `;
 
 const Login: AuthSNFC<"Login"> = ({ navigation }) => {
-  const [email, setEmail] = useState<string>("");
+  const [mid, setMid] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
-  const login = useUserStore((state) => state.login);
+  const { data, error, isLoading, refetch, status } = useQuery({
+    queryKey: ["login"],
+    queryFn: () => login(mid, password),
+    onSuccess: (data: any) => {},
+    enabled: false,
+  });
 
   function emailSubmit() {
-    console.log("Email done, value : ", email);
+    console.log("Email done, value : ", mid);
   }
   function passwordSubmit() {
     console.log("Password done, value : ", password);
   }
   function changeEmail(text: string) {
-    setEmail(text);
-    console.log(text);
+    setMid(text);
   }
   function changePassword(text: string) {
     setPassword(text);
-    console.log(text);
   }
 
   function goJoin() {
@@ -57,7 +62,7 @@ const Login: AuthSNFC<"Login"> = ({ navigation }) => {
       </SLogoContainer>
       <TextInput
         placeholder="E-mail"
-        value={email}
+        value={mid}
         onSubmit={emailSubmit}
         onChangeText={changeEmail}
       />
@@ -71,11 +76,12 @@ const Login: AuthSNFC<"Login"> = ({ navigation }) => {
 
       <SBtnContainer>
         <Btn text="회원가입" onPress={goJoin} size="md" />
-        <Btn text="로그인" onPress={login} size="md" />
+        <Btn text="로그인" onPress={refetch} size="md" />
       </SBtnContainer>
 
       <SSocialBtnContainer>
         <SocialLoginBtn text="구글 로그인" />
+        {isLoading ? <Text>gd</Text> : null}
         <SocialLoginBtn text="카카오 로그인" />
       </SSocialBtnContainer>
     </SContainer>

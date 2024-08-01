@@ -24,6 +24,7 @@ const TextInput = (props: {
   return (
     <SInputContainer>
       <SInput
+        autoCapitalize={"none"}
         multiline={props.multiline}
         placeholder={props.placeholder}
         value={props.value}

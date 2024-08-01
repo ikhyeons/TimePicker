@@ -8,13 +8,13 @@ interface States {
 }
 
 interface Actions {
-  login: () => void;
-  logout: () => void;
+  setLogin: () => void;
 }
 
 export const useUserStore = create<States & Actions>((set) => ({
   isLogin: false,
   userInfo: { name: "성익현" },
-  login: () => set(() => ({ isLogin: true })),
-  logout: () => set(() => ({ isLogin: false })),
+
+  setLogin: () => set((state) => ({ isLogin: true })),
+  setlogout: () => set((state) => ({ isLogin: false })),
 }));
