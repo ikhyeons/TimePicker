@@ -9,6 +9,9 @@ import dummyMyRequest from "../../dummyData/myRequest";
 
 import { MainBTNFC, RootSNFC } from "../../types/Navigation";
 import { useNavigation } from "@react-navigation/native";
+import { useQuery } from "react-query";
+import { getSendRequest } from "../../apis/requestApi";
+import { useUserStore } from "../../store/userStore";
 
 const Container = styled.View`
   position: relative;
@@ -44,6 +47,18 @@ const Request: MainBTNFC<"Request"> = () => {
 
   const [myRequestList, setMyRequestList] =
     useState<IRequest[]>(dummyMyRequest);
+
+  const token = useUserStore((state) => state.token);
+
+  const { data, error, isLoading, refetch } = useQuery(["request", "send"], {
+    queryFn: () => {
+      console.log(token);
+      return getSendRequest(token as string);
+    },
+    onSuccess: (data) => {
+      console.log(data);
+    },
+  });
 
   const navigation = useNavigation<RootSNFC<"TabNav">>();
 

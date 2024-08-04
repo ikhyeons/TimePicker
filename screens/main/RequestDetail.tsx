@@ -5,6 +5,7 @@ import myRequest from "../../dummyData/myRequest";
 import Add from "../../components/add/Add";
 import DetailStateHeader from "../../components/header/DetailStateHeader";
 import ResponseTimeModal from "../../components/Modal/ResponseTimeModal";
+import { useQuery } from "react-query";
 const Container = styled.View`
   flex: 1;
 `;
