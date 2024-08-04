@@ -10,7 +10,7 @@ import dummyMyRequest from "../../dummyData/myRequest";
 import { MainBTNFC, RootSNFC } from "../../types/Navigation";
 import { useNavigation } from "@react-navigation/native";
 import { useQuery } from "react-query";
-import { getSendRequest } from "../../apis/requestApi";
+import { getReceiveRequest, getSendRequest } from "../../apis/requestApi";
 import { useUserStore } from "../../store/userStore";
 
 const Container = styled.View`
@@ -50,10 +50,30 @@ const Request: MainBTNFC<"Request"> = () => {
 
   const token = useUserStore((state) => state.token);
 
-  const { data, error, isLoading, refetch } = useQuery(["request", "send"], {
+  const {
+    data: sendRequestList,
+    error: error1,
+    isLoading: loading1,
+    refetch: refetch1,
+  } = useQuery(["request", "send"], {
     queryFn: () => {
       console.log(token);
       return getSendRequest(token as string);
+    },
+    onSuccess: (data) => {
+      console.log(data);
+    },
+  });
+
+  const {
+    data: receiveRequestList,
+    error: error2,
+    isLoading: loading2,
+    refetch: refetch2,
+  } = useQuery(["request", "receive"], {
+    queryFn: () => {
+      console.log(token);
+      return getReceiveRequest(token as string);
     },
     onSuccess: (data) => {
       console.log(data);
