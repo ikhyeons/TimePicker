@@ -29,12 +29,17 @@ const SSocialBtnContainer = styled.View`
 `;
 
 const Login: AuthSNFC<"Login"> = ({ navigation }) => {
+  const setLogin = useUserStore((state) => state.setLogin);
+  const setToken = useUserStore((state) => state.setToken);
   const [mid, setMid] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { data, error, isLoading, refetch, status } = useQuery({
     queryKey: ["login"],
     queryFn: () => login(mid, password),
-    onSuccess: (data: any) => {},
+    onSuccess: (data: any) => {
+      setLogin();
+      setToken(data.Access_token);
+    },
     enabled: false,
   });
 
@@ -78,10 +83,11 @@ const Login: AuthSNFC<"Login"> = ({ navigation }) => {
         <Btn text="회원가입" onPress={goJoin} size="md" />
         <Btn text="로그인" onPress={refetch} size="md" />
       </SBtnContainer>
+      {isLoading ? <Text>로그인 중!</Text> : null}
 
       <SSocialBtnContainer>
         <SocialLoginBtn text="구글 로그인" />
-        {isLoading ? <Text>gd</Text> : null}
+
         <SocialLoginBtn text="카카오 로그인" />
       </SSocialBtnContainer>
     </SContainer>
