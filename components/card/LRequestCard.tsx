@@ -80,8 +80,8 @@ const Order = styled.Text`
 `;
 
 const LRequestCard = (props: { data: IRequest; navigator: any }) => {
-  const memberNum = props.data.member.length;
-  const resNum = props.data.member.filter((data, i) => data.isResponse).length;
+  const memberNum = props.data.receiverList?.length;
+  const resNum = props.data.receiverList?.length;
 
   return (
     <Card
@@ -96,7 +96,7 @@ const LRequestCard = (props: { data: IRequest; navigator: any }) => {
       />} */}
       <InnerContainer>
         <CardHeader>
-          <Status status={props.data.status} />
+          <Status status={"opened"} />
           <MemberContainer>
             {memberNum - resNum != 0 && (
               <UnRes>{` 미응답 ${memberNum - resNum}명`}</UnRes>
@@ -107,10 +107,10 @@ const LRequestCard = (props: { data: IRequest; navigator: any }) => {
 
         <Title>{props.data.title}</Title>
         <ExpireContainer>
-          <Expire>{`마감까지 : ${time.diffDay(props.data.expireDate)}`}</Expire>
+          <Expire>{`마감까지 : ${time.diffDay(props.data.deadline)}`}</Expire>
           <ExpireWhite />
         </ExpireContainer>
-        <Order> {`${props.data.order} → 장민욱, 류창완 외 2명`}</Order>
+        <Order> {`${props.data.member.name} → 장민욱, 류창완 외 2명`}</Order>
       </InnerContainer>
     </Card>
   );

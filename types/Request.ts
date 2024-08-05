@@ -1,16 +1,13 @@
 interface IRequest {
-  id: number;
-  image: typeof require;
+  requestId: number;
+  member: IUser;
+  type: "DATE" | "DAY";
   title: string;
   description: string;
-  reqType: string;
-  resType: "date" | "day";
-  expireDate: string;
-  order: string;
-  member: { name: string; isResponse: boolean }[];
-  status: TMyRequestStatus | TGetRequestStatus;
-  day?: ("월" | "화" | "수" | "목" | "금" | "토" | "일")[];
-  date?: string[];
+  deadline: string;
+  receiverList: requestReceiver[];
+  dayList: IRDay[];
+  dateList: IRDate[];
   result?: {
     date?: string;
     day?: string;
@@ -18,6 +15,9 @@ interface IRequest {
     endTime: string;
     priority: number;
   }[];
+  cancel: boolean;
+  image?: typeof require;
+  reqType: reqType;
 }
 
 type reqType = "date" | "day" | null;

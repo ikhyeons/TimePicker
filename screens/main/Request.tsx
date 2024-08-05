@@ -55,13 +55,12 @@ const Request: MainBTNFC<"Request"> = () => {
     error: error1,
     isLoading: loading1,
     refetch: refetch1,
-  } = useQuery(["request", "send"], {
+  } = useQuery<IRequest[]>(["request", "send"], {
     queryFn: () => {
-      console.log(token);
       return getSendRequest(token as string);
     },
     onSuccess: (data) => {
-      console.log(data);
+      console.log("sendRequest : ", data);
     },
   });
 
@@ -70,23 +69,28 @@ const Request: MainBTNFC<"Request"> = () => {
     error: error2,
     isLoading: loading2,
     refetch: refetch2,
-  } = useQuery(["request", "receive"], {
+  } = useQuery<IRequest[]>(["request", "receive"], {
     queryFn: () => {
-      console.log(token);
       return getReceiveRequest(token as string);
     },
     onSuccess: (data) => {
-      console.log(data);
+      console.log("receiveRequest : ", data);
     },
   });
 
   const navigation = useNavigation<RootSNFC<"TabNav">>();
 
   const FirstRoute = () => (
-    <VCardList navigator={navigation.navigate} data={myRequestList} />
+    <VCardList
+      navigator={navigation.navigate}
+      data={sendRequestList as IRequest[]}
+    />
   );
   const SecondRoute = () => (
-    <VCardList navigator={navigation.navigate} data={myRequestList} />
+    <VCardList
+      navigator={navigation.navigate}
+      data={receiveRequestList as IRequest[]}
+    />
   );
   const ThirdRoute = () => (
     <VCardList navigator={navigation.navigate} data={myRequestList} />
