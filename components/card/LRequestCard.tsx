@@ -81,7 +81,21 @@ const Order = styled.Text`
 
 const LRequestCard = (props: { data: IRequest; navigator: any }) => {
   const memberNum = props.data.receiverList?.length;
-  const resNum = props.data.receiverList?.length;
+  const responser: number[] = [];
+  if (props.data.type == "DAY") {
+    props.data.dayList.map((data) => {
+      data.responseList.map((data2) => {
+        responser.push(data2.member.memberId);
+      });
+    });
+  } else {
+    props.data.dateList.map((data) => {
+      data.responseList.map((data2) => {
+        responser.push(data2.member.memberId);
+      });
+    });
+  }
+  const responseNum = new Set(responser).size;
 
   return (
     <Card
@@ -98,10 +112,10 @@ const LRequestCard = (props: { data: IRequest; navigator: any }) => {
         <CardHeader>
           <Status status={"opened"} />
           <MemberContainer>
-            {memberNum - resNum != 0 && (
-              <UnRes>{` 미응답 ${memberNum - resNum}명`}</UnRes>
+            {memberNum - responseNum != 0 && (
+              <UnRes>{` 미응답 ${memberNum - responseNum}명`}</UnRes>
             )}
-            <Member>{`${resNum} / ${memberNum}`}</Member>
+            <Member>{`${responseNum} / ${memberNum}`}</Member>
           </MemberContainer>
         </CardHeader>
 

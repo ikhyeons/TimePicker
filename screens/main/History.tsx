@@ -8,6 +8,9 @@ import dummyMyRequest from "../../dummyData/myRequest";
 import VCardList from "../../components/card/VCardList";
 import Navigation, { RootSNFC } from "../../types/Navigation";
 import { useNavigation } from "@react-navigation/native";
+import { useQuery } from "react-query";
+import { getReceiveRequest, getSendRequest } from "../../apis/requestApi";
+import { useUserStore } from "../../store/userStore";
 
 const Container = styled.View`
   flex: 1;
@@ -22,15 +25,45 @@ const BtnText = styled.Text``;
 const History = () => {
   const [index, setIndex] = React.useState(0);
   const navigation = useNavigation<RootSNFC<"TabNav">>();
-  const [myRequestList, setMyRequestList] =
-    useState<IRequest[]>(dummyMyRequest);
+  const token = useUserStore((state) => state.token);
+  const {
+    data: sendRequestList,
+    error: error1,
+    isLoading: loading1,
+    refetch: refetch1,
+  } = useQuery<IRequest[]>(["request", "send"], {
+    queryFn: () => {
+      return getSendRequest(token as string);
+    },
+    onSuccess: (data) => {
+      console.log("sendRequest : ", data);
+    },
+  });
 
+  const {
+    data: receiveRequestList,
+    error: error2,
+    isLoading: loading2,
+    refetch: refetch2,
+  } = useQuery<IRequest[]>(["request", "receive"], {
+    queryFn: () => {
+      return getReceiveRequest(token as string);
+    },
+    onSuccess: (data) => {
+      console.log("receiveRequest : ", data);
+    },
+  });
+
+  const AllResponse = sendRequestList?.concat(receiveRequestList as IRequest[]);
   return (
     <Container>
       {/* <Header /> */}
       <Add />
       <MyContainer>
-        <VCardList data={myRequestList} navigator={navigation.navigate} />
+        <VCardList
+          data={AllResponse as IRequest[]}
+          navigator={navigation.navigate}
+        />
       </MyContainer>
     </Container>
   );

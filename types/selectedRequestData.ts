@@ -5,3 +5,5 @@ type selectedRequestData = {
     selected: boolean;
   };
 };
+
+export default {};

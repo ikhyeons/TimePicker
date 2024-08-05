@@ -45,9 +45,6 @@ const Request: MainBTNFC<"Request"> = () => {
     { key: "third", title: "결정된 일정" },
   ]);
 
-  const [myRequestList, setMyRequestList] =
-    useState<IRequest[]>(dummyMyRequest);
-
   const token = useUserStore((state) => state.token);
 
   const {
@@ -93,7 +90,10 @@ const Request: MainBTNFC<"Request"> = () => {
     />
   );
   const ThirdRoute = () => (
-    <VCardList navigator={navigation.navigate} data={myRequestList} />
+    <VCardList
+      navigator={navigation.navigate}
+      data={sendRequestList as IRequest[]}
+    />
   );
 
   const renderScene = SceneMap({
@@ -107,14 +107,16 @@ const Request: MainBTNFC<"Request"> = () => {
       {/* <Header /> */}
       <Add />
       <MyContainer>
-        <TabView
-          renderScene={renderScene}
-          onIndexChange={setIndex}
-          navigationState={{
-            index,
-            routes,
-          }}
-        />
+        {loading1 == false && loading2 == false ? (
+          <TabView
+            renderScene={renderScene}
+            onIndexChange={setIndex}
+            navigationState={{
+              index,
+              routes,
+            }}
+          />
+        ) : null}
       </MyContainer>
       <AddRequest
         onPress={() => {
