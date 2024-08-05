@@ -5,7 +5,6 @@ import Header from "../../components/header/Header";
 import Add from "../../components/add/Add";
 import { TabView, SceneMap } from "react-native-tab-view";
 import VCardList from "../../components/card/VCardList";
-import dummyMyRequest from "../../dummyData/myRequest";
 
 import { MainBTNFC, RootSNFC } from "../../types/Navigation";
 import { useNavigation } from "@react-navigation/native";

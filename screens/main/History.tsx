@@ -3,8 +3,6 @@ import styled from "styled-components/native";
 import Header from "../../components/header/Header";
 import Add from "../../components/add/Add";
 
-import dummyMyRequest from "../../dummyData/myRequest";
-
 import VCardList from "../../components/card/VCardList";
 import Navigation, { RootSNFC } from "../../types/Navigation";
 import { useNavigation } from "@react-navigation/native";
