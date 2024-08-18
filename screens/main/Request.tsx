@@ -55,9 +55,7 @@ const Request: MainBTNFC<"Request"> = () => {
     queryFn: () => {
       return getSendRequest(token as string);
     },
-    onSuccess: (data) => {
-      console.log("sendRequest : ", data);
-    },
+    onSuccess: (data) => {},
   });
 
   const {
@@ -70,7 +68,7 @@ const Request: MainBTNFC<"Request"> = () => {
       return getReceiveRequest(token as string);
     },
     onSuccess: (data) => {
-      console.log("receiveRequest : ", data);
+      console.log(data);
     },
   });
 
@@ -119,7 +117,7 @@ const Request: MainBTNFC<"Request"> = () => {
       </MyContainer>
       <AddRequest
         onPress={() => {
-          navigation.navigate("SendRequest");
+          navigation.navigate!("SendRequest");
         }}
       >
         <AddRequestText>+</AddRequestText>

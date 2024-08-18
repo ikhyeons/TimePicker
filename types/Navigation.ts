@@ -16,7 +16,7 @@ export namespace NavigationParam {
     TabNav: undefined;
     SendRequest: undefined;
     SendResponse: undefined;
-    RequestDetail: undefined;
+    RequestDetail: { Home: undefined; params: { requestData: IRequest } };
     SelectTime: undefined;
   };
   export type Auth = {
@@ -27,7 +27,7 @@ export namespace NavigationParam {
 
 export type RootSNFC<T extends keyof NavigationParam.Root> = React.FC<
   NativeStackScreenProps<NavigationParam.Root, T>
-> & { navigate: (screenName: keyof NavigationParam.Root) => void };
+> & { navigate?: (screenName: keyof NavigationParam.Root) => void };
 
 export type AuthSNFC<T extends keyof NavigationParam.Auth> = React.FC<
   NativeStackScreenProps<NavigationParam.Auth, T>

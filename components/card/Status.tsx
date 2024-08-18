@@ -36,7 +36,7 @@ const Status = (props: { status: string }) => {
         {props.status == "expired" && "마감됨"}
         {props.status == "canceled" && "취소됨"}
         {props.status == "responsed" && "응답함"}
-        {props.status == "allResponsed" && "응답 완료"}
+        {props.status == "allResponsed" && "전원 응답 완료"}
         {props.status == "neared" && "마감 임박"}
       </Text>
     </SStatus>

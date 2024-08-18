@@ -2,8 +2,9 @@ import { View, Text } from "react-native";
 import React from "react";
 import styled from "styled-components/native";
 import time from "../../utils/time";
+import { extractState } from "../../utils/state";
 
-const Container = styled.View<{ status: IRequest["status"] }>`
+const Container = styled.View<{ status: string }>`
   background-color: ${(prop) => {
     switch (prop.status) {
       case "opened":
@@ -27,15 +28,19 @@ const Container = styled.View<{ status: IRequest["status"] }>`
 `;
 
 const DetailStateHeader = (props: { data: IRequest }) => {
+  const state = extractState(props.data, "skantrkwl789");
   return (
-    <Container status={props.data.status}>
-      {props.data.status == "allResponsed" && <Text>응답 완료</Text>}
-      {props.data.status == "canceled" && <Text>취소됨</Text>}
-      {props.data.status == "expired" && <Text>마감됨</Text>}
-      {props.data.status == "neared" && <Text>마감 임박</Text>}
-      {props.data.status == "opened" && <Text>열림</Text>}
-      {props.data.status == "responsed" && <Text>응답함</Text>}
-      <Text>, 마감까지 : {time.diffDay(props.data.expireDate)}</Text>
+    <Container status={state}>
+      {state == "expired" ? <Text>{props.data.deadline} 에 </Text> : null}
+      {state == "allResponsed" && <Text>응답 완료</Text>}
+      {state == "canceled" && <Text>취소됨</Text>}
+      {state == "expired" && <Text>마감됨</Text>}
+      {state == "neared" && <Text>마감 임박</Text>}
+      {state == "opened" && <Text>열림</Text>}
+      {state == "responsed" && <Text>응답함</Text>}
+      {state == "expired" ? null : (
+        <Text>, 마감까지 : {time.diffDay(props.data.deadline)}</Text>
+      )}
     </Container>
   );
 };

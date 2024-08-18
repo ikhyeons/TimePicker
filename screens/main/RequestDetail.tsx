@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Text } from "react-native-paper";
 import styled from "styled-components/native";
-import myRequest from "../../dummyData/myRequest";
 import Add from "../../components/add/Add";
 import DetailStateHeader from "../../components/header/DetailStateHeader";
 import ResponseTimeModal from "../../components/Modal/ResponseTimeModal";
-import { useQuery } from "react-query";
+import { NavigationParam, RootSNFC } from "../../types/Navigation";
+import { useRoute } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 const Container = styled.View`
   flex: 1;
 `;
@@ -58,55 +59,65 @@ const ReqCard = styled.TouchableOpacity`
   border-color: grey;
 `;
 
-const RequestDetail = () => {
+const RequestDetail: RootSNFC<"RequestDetail"> = () => {
+  const {
+    params: {
+      params: { requestData: data },
+    },
+  } =
+    useRoute<
+      NativeStackScreenProps<NavigationParam.Root, "RequestDetail">["route"]
+    >();
   const [rightModalOpen, setRightModalOpen] = useState(false);
-  const [detail, setDetail] = useState<IRequest>(myRequest[0]);
+
   return (
     <Container>
       <Add />
-      <DetailStateHeader data={detail} />
+      <DetailStateHeader data={data} />
 
       <MainContainer>
         <TypeContainer>
-          <Type>{detail.reqType}</Type>
+          <Type>{data.reqType}</Type>
         </TypeContainer>
         <TitleContainer>
           <Title>
-            {detail.title} - {detail.order}
+            {data.title} - {data.member.name}
           </Title>
         </TitleContainer>
         <MemberContainer>
           <Text style={{ fontSize: 16 }}>to : </Text>
-          {detail.member.map((data, i) => (
-            <Member key={i}>{data.name}</Member>
+          {data.receiverList.map((data, i) => (
+            <Member key={i}>{data.member.name}</Member>
           ))}
         </MemberContainer>
         <DescriptionContainer>
-          <Description>{detail.description}</Description>
+          <Description>{data.description}</Description>
         </DescriptionContainer>
 
         <ResponseContainer>
           <Text>요청된 시간 : </Text>
-          {detail.day?.map((data, i) => (
-            <ReqCard
-              onPress={() => {
-                setRightModalOpen(true);
-              }}
-              key={i}
-            >
-              <Text>{data}</Text>
-            </ReqCard>
-          ))}
-          {detail.date?.map((data, i) => (
-            <ReqCard
-              onPress={() => {
-                setRightModalOpen(true);
-              }}
-              key={i}
-            >
-              <Text>{data}</Text>
-            </ReqCard>
-          ))}
+          {data.type == "DAY" &&
+            data.dayList?.map((data, i) => (
+              <ReqCard
+                onPress={() => {
+                  setRightModalOpen(true);
+                }}
+                key={i}
+              >
+                <Text>{data.day}</Text>
+              </ReqCard>
+            ))}
+          {data.type == "DATE" &&
+            data.dateList?.map((data, i) => (
+              <ReqCard
+                onPress={() => {
+                  setRightModalOpen(true);
+                }}
+                key={i}
+              >
+                <Text>{data.date}</Text>
+              </ReqCard>
+            ))}
         </ResponseContainer>
       </MainContainer>
       <ResponseTimeModal

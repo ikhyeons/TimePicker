@@ -13,7 +13,7 @@ declare global {
       day: string;
       rdayId: number;
     };
-    responseData: string;
+    responseData: string | null;
     rdayId?: number;
     rdateId?: number;
   }

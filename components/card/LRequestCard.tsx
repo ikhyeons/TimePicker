@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components/native";
 import Status from "./Status";
 import time from "../../utils/time";
+import { extractState } from "../../utils/state";
 
 const Card = styled.TouchableOpacity`
   flex-direction: row;
@@ -100,7 +101,9 @@ const LRequestCard = (props: { data: IRequest; navigator: any }) => {
   return (
     <Card
       onPress={() => {
-        props.navigator("RequestDetail");
+        props.navigator("RequestDetail", {
+          params: { requestData: props.data },
+        });
       }}
     >
       {/* {<Image
@@ -110,7 +113,7 @@ const LRequestCard = (props: { data: IRequest; navigator: any }) => {
       />} */}
       <InnerContainer>
         <CardHeader>
-          <Status status={"opened"} />
+          <Status status={extractState(props.data, "skantrkwl789")} />
           <MemberContainer>
             {memberNum - responseNum != 0 && (
               <UnRes>{` 미응답 ${memberNum - responseNum}명`}</UnRes>
