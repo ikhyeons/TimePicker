@@ -83,6 +83,11 @@ const Order = styled.Text`
 const LRequestCard = (props: { data: IRequest; navigator: any }) => {
   const memberNum = props.data.receiverList?.length;
   const responser: number[] = [];
+  const responserName: Set<string> = new Set();
+
+  props.data.receiverList.map((receiver) => {
+    responserName.add(receiver.member.name);
+  });
   if (props.data.type == "DAY") {
     props.data.dayList.map((data) => {
       data.responseList.map((data2) => {
@@ -127,7 +132,14 @@ const LRequestCard = (props: { data: IRequest; navigator: any }) => {
           <Expire>{`마감까지 : ${time.diffDay(props.data.deadline)}`}</Expire>
           <ExpireWhite />
         </ExpireContainer>
-        <Order> {`${props.data.member.name} → 장민욱, 류창완 외 2명`}</Order>
+        <Order>
+          {" "}
+          {`${props.data.member.name} → ${
+            Array.from(responserName)[0] ? Array.from(responserName)[0] : ""
+          }, ${
+            Array.from(responserName)[1] ? Array.from(responserName)[1] : ""
+          }  ${memberNum > 2 ? `외 ${memberNum - 2}명` : ""}`}
+        </Order>
       </InnerContainer>
     </Card>
   );

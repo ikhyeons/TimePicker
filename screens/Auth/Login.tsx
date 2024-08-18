@@ -9,6 +9,7 @@ import { useQuery } from "react-query";
 import { login } from "../../apis/memberApi";
 import { useUserStore } from "../../store/userStore";
 import { Text } from "react-native";
+import { setItem } from "../../localStorage/localStorage";
 
 const SContainer = styled.View`
   flex: 1;
@@ -39,6 +40,7 @@ const Login: AuthSNFC<"Login"> = ({ navigation }) => {
     onSuccess: (data: any) => {
       setLogin();
       setToken(data.Access_token);
+      setItem("token", data.Access_token);
     },
     enabled: false,
   });

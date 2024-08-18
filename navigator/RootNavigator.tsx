@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TabNavigator from "./TabNavigator";
 import Login from "../screens/Auth/Login";
@@ -10,11 +10,24 @@ import { NavigationParam } from "../types/Navigation";
 import { useUserStore } from "../store/userStore";
 import RequestDetail from "../screens/main/RequestDetail";
 import SelectTime from "../screens/main/SelectTime";
+import { getItem } from "../localStorage/localStorage";
 
 const StackMain = createNativeStackNavigator<NavigationParam.Root>();
 const StackAuth = createNativeStackNavigator<NavigationParam.Auth>();
 const RootNavigator = () => {
   const isLogin = useUserStore((state) => state.isLogin);
+  const setLogin = useUserStore((state) => state.setLogin);
+  const setToken = useUserStore((state) => state.setToken);
+
+  useEffect(() => {
+    getItem("token").then((token) => {
+      if (token != "" && token != null) {
+        setLogin();
+        setToken(token);
+      }
+    });
+  }, []);
+
   return isLogin ? (
     <StackMain.Navigator screenOptions={{ headerShown: false }}>
       <StackMain.Screen name="TabNav" component={TabNavigator} />
