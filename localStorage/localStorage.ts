@@ -5,7 +5,6 @@ export const setItem = async (key: string, value: string) => {
     await AsyncStorage.setItem(key, value);
 
     // 저장값 확인을 위한 console.log
-    console.log(`setItem... ${key} : ${value}`);
   } catch (e) {
     throw e;
   }

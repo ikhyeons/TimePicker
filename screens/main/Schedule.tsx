@@ -1,11 +1,10 @@
-import React, { ComponentType, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, Text } from "react-native";
 import { MainBTNFC } from "../../types/Navigation";
 import styled from "styled-components/native";
 import Timeline from "react-native-timeline-flatlist";
 import Add from "../../components/add/Add";
 import time from "../../utils/time";
-import { dummySchedule } from "../../dummyData/schedule";
 import { SceneMap, TabView } from "react-native-tab-view";
 import { Calendar } from "react-native-calendars";
 import Modal from "react-native-modal";
@@ -17,10 +16,10 @@ import {
   HALF_HEIGHT,
   HALF_WIDTH,
 } from "../../style/size";
-import TimeInput from "../../components/input/TimeInput";
 import DatePicker from "react-native-date-picker";
 import TextInput from "../../components/input/TextInput";
 import Btn from "../../components/btn/Btn";
+import { useScheduleStore } from "../../store/scheduleStore";
 
 const View = styled.View`
   flex: 1;
@@ -110,52 +109,63 @@ const InputTimeBtn = styled.TouchableOpacity`
   padding: 10px;
 `;
 const InputTimeBtnText = styled.Text``;
-const FirstRoute = () => (
-  <View>
-    <CurrentTime>
-      <Text>{time.currentTime()}</Text>
-    </CurrentTime>
-    <TimeLineContianer>
-      <Timeline
-        data={dummySchedule}
-        circleSize={11}
-        circleColor="rgb(45,156,219)"
-        innerCircle="dot"
-        lineColor="rgb(45,156,219)"
-        timeStyle={{
-          textAlign: "center",
-          backgroundColor: "#ff9797",
-          color: "white",
-          padding: 5,
-          borderRadius: 13,
-        }}
-        titleStyle={{ marginBottom: -10 }}
-        descriptionStyle={{ color: "gray", width: "90%", marginLeft: 15 }}
-        isUsingFlatlist={true}
-      />
-    </TimeLineContianer>
-  </View>
-);
+
+const FirstRoute = () => {
+  const scheduleList = useScheduleStore((state) => state.scheduleList);
+  console.log(scheduleList);
+  return (
+    <View>
+      <CurrentTime>
+        <Text>{time.currentTime()}</Text>
+      </CurrentTime>
+      <TimeLineContianer>
+        <Timeline
+          data={scheduleList}
+          circleSize={11}
+          circleColor="rgb(45,156,219)"
+          innerCircle="dot"
+          lineColor="rgb(45,156,219)"
+          timeStyle={{
+            textAlign: "center",
+            backgroundColor: "#ff9797",
+            color: "white",
+            padding: 5,
+            borderRadius: 13,
+          }}
+          titleStyle={{ marginBottom: -10 }}
+          descriptionStyle={{ color: "gray", width: "90%", marginLeft: 15 }}
+          isUsingFlatlist={true}
+        />
+      </TimeLineContianer>
+    </View>
+  );
+};
 const SecondRoute = () => {
   const [isBottomOn, setIsBottomOn] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDateNum, setSelectedDateNum] = useState("");
   const [isAddSchedultOn, setIsAddScheduleOn] = useState(false);
   const [isTimeInputOpen, setIsTimeInputOpen] = useState(false);
   const [scheduleTime, setScheduleTime] = useState("");
   const [scheduleTitle, setScheduleTitle] = useState("");
   const [scheduleDescription, setScheduleDescription] = useState("");
+
+  const scheduleList = useScheduleStore((state) => state.scheduleList);
+  const addSchedule = useScheduleStore((state) => state.addSchedule);
   return (
     <CalendarContainer>
       <CurrentTime>
         <Text>{time.currentTime()}</Text>
       </CurrentTime>
       <Calendar
-        onDayLongPress={(day) => {
+        onDayLongPress={(day: { year: number; month: number; day: number }) => {
           setSelectedDate(`${day.year}년 ${day.month}월 ${day.day}일`);
+          setSelectedDateNum(`${day.year}-${day.month}-${day.day}`);
           setIsBottomOn(true);
         }}
-        onDayPress={(day) => {
+        onDayPress={(day: { year: number; month: number; day: number }) => {
           setSelectedDate(`${day.year}년 ${day.month}월 ${day.day}일`);
+          setSelectedDateNum(`${day.year}-${day.month}-${day.day}`);
           setIsBottomOn(true);
         }}
         markingType="multi-dot"
@@ -204,7 +214,7 @@ const SecondRoute = () => {
             <FlatList
               overScrollMode="never"
               style={{ padding: 10, flex: 1, paddingVertical: 0 }}
-              data={dummySchedule}
+              data={scheduleList}
               renderItem={({ item, index }) => (
                 <>
                   <Text style={{ fontSize: 16, fontWeight: 600 }}>
@@ -308,6 +318,12 @@ const SecondRoute = () => {
                   size="sm"
                   text="추가하기"
                   onPress={() => {
+                    addSchedule(
+                      scheduleTime,
+                      selectedDateNum,
+                      scheduleTitle,
+                      scheduleDescription
+                    );
                     setIsAddScheduleOn(false);
                   }}
                 />
@@ -322,6 +338,12 @@ const SecondRoute = () => {
 
 const Schedule: MainBTNFC<"MySchedule"> = ({ navigation }) => {
   const [isBottomOn, setIsBottomOn] = useState(false);
+  const fetchScheduleList = useScheduleStore((state) => state.fetch);
+  const clear = useScheduleStore((state) => state.clear);
+
+  useEffect(() => {
+    fetchScheduleList();
+  }, []);
   const renderScene = SceneMap({
     first: FirstRoute,
     second: SecondRoute,
