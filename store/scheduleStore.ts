@@ -3,17 +3,12 @@ import { create } from "zustand";
 import { getItem, setItem } from "../localStorage/localStorage";
 
 interface States {
-  scheduleList: {
-    id: number;
-    time: string;
-    date: string;
-    title: string;
-    description: string;
-  }[];
+  scheduleList: ISchedule[];
 }
 
 interface Actions {
   fetch: () => void;
+  modifySchedule: (id: number, title: string, description: string) => void;
   addSchedule: (
     time: string,
     date: string,
@@ -21,7 +16,7 @@ interface Actions {
     description: string
   ) => void;
   clear: () => void;
-  removeSchedule: () => void;
+  removeSchedule: (id: number) => void;
 }
 
 export const useScheduleStore = create<States & Actions>((set) => ({
@@ -97,5 +92,25 @@ export const useScheduleStore = create<States & Actions>((set) => ({
         };
       }
     }),
-  removeSchedule: () => set((state) => ({})),
+
+  modifySchedule: (id: number, title: string, description: string) => {
+    return set((state) => {
+      const newSchedule = state.scheduleList.map((data) => {
+        if (data.id == id) {
+          return { ...data, title: title, description: description };
+        }
+        return data;
+      });
+      setItem("schedule", JSON.stringify(newSchedule));
+      return { scheduleList: newSchedule };
+    });
+  },
+
+  removeSchedule: (id) => {
+    return set((state) => {
+      const newSchedule = state.scheduleList.filter((data) => data.id != id);
+      setItem("schedule", JSON.stringify(newSchedule));
+      return { scheduleList: newSchedule };
+    });
+  },
 }));

@@ -20,6 +20,24 @@ import DatePicker from "react-native-date-picker";
 import TextInput from "../../components/input/TextInput";
 import Btn from "../../components/btn/Btn";
 import { useScheduleStore } from "../../store/scheduleStore";
+import ScheduleModifyModal from "../../components/Modal/ScheduleModifyModal";
+import ScheduleAddModal from "../../components/Modal/ScheduleAddModal";
+import CurrentTime from "../../components/CurrentTime";
+
+const AddSchedule = styled.TouchableOpacity`
+  position: absolute;
+  border-radius: 25px;
+  width: 50px;
+  height: 50px;
+  bottom: 25px;
+  right: 25px;
+  justify-content: center;
+  align-items: center;
+  background-color: skyblue;
+  elevation: 3;
+`;
+
+const AddScheduleText = styled.Text``;
 
 const View = styled.View`
   flex: 1;
@@ -37,10 +55,6 @@ const TimeLineContianer = styled.View`
   padding: 5px;
 `;
 
-const CurrentTime = styled.View`
-  padding: 10px;
-  background-color: grey;
-`;
 const CalendarContainer = styled.View`
   flex: 1;
 `;
@@ -112,24 +126,33 @@ const InputTimeBtnText = styled.Text``;
 
 const FirstRoute = () => {
   const scheduleList = useScheduleStore((state) => state.scheduleList);
-  console.log(scheduleList);
+  const [isModal, setIsModal] = useState(false);
+  const [isAddModal, setIsAddModal] = useState(false);
+  const [refData, setRefData] = useState<ISchedule | null>(null);
+  const clear = useScheduleStore((state) => state.clear);
+
   return (
     <View>
-      <CurrentTime>
-        <Text>{time.currentTime()}</Text>
-      </CurrentTime>
+      <CurrentTime />
       <TimeLineContianer>
         <Timeline
+          onEventPress={(e) => {
+            console.log(e);
+            setIsModal(true);
+            setRefData(e);
+          }}
           data={scheduleList}
           circleSize={11}
           circleColor="rgb(45,156,219)"
           innerCircle="dot"
           lineColor="rgb(45,156,219)"
+          separator={true}
           timeStyle={{
             textAlign: "center",
             backgroundColor: "#ff9797",
             color: "white",
             padding: 5,
+            minWidth: 70,
             borderRadius: 13,
           }}
           titleStyle={{ marginBottom: -10 }}
@@ -137,6 +160,25 @@ const FirstRoute = () => {
           isUsingFlatlist={true}
         />
       </TimeLineContianer>
+      {isModal && (
+        <ScheduleModifyModal
+          refData={refData}
+          visible={isModal}
+          setVisible={setIsModal}
+        />
+      )}
+
+      <AddSchedule
+        onPress={() => {
+          setIsAddModal(true);
+        }}
+      >
+        <AddScheduleText>+</AddScheduleText>
+      </AddSchedule>
+
+      {isAddModal && (
+        <ScheduleAddModal visible={isAddModal} setVisible={setIsAddModal} />
+      )}
     </View>
   );
 };
@@ -152,28 +194,44 @@ const SecondRoute = () => {
 
   const scheduleList = useScheduleStore((state) => state.scheduleList);
   const addSchedule = useScheduleStore((state) => state.addSchedule);
+
+  function getCalendarData(scheduleList: ISchedule[]) {
+    const result: { [index: string]: { dots: { color: string }[] } } = {};
+    scheduleList.map((data) => {
+      if (data.date in result) {
+        result[`${data.date}`].dots.push({ color: "black" });
+      } else {
+        result[`${data.date}`] = { dots: [] };
+        result[`${data.date}`].dots.push({ color: "black" });
+      }
+    });
+    return result;
+  }
+
   return (
     <CalendarContainer>
-      <CurrentTime>
-        <Text>{time.currentTime()}</Text>
-      </CurrentTime>
+      <CurrentTime />
       <Calendar
         onDayLongPress={(day: { year: number; month: number; day: number }) => {
           setSelectedDate(`${day.year}년 ${day.month}월 ${day.day}일`);
-          setSelectedDateNum(`${day.year}-${day.month}-${day.day}`);
+          setSelectedDateNum(
+            `${day.year}-${(day.month + "").padStart(2, "0")}-${(
+              day.day + ""
+            ).padStart(2, "0")}`
+          );
           setIsBottomOn(true);
         }}
         onDayPress={(day: { year: number; month: number; day: number }) => {
           setSelectedDate(`${day.year}년 ${day.month}월 ${day.day}일`);
-          setSelectedDateNum(`${day.year}-${day.month}-${day.day}`);
+          setSelectedDateNum(
+            `${day.year}-${(day.month + "").padStart(2, "0")}-${(
+              day.day + ""
+            ).padStart(2, "0")}`
+          );
           setIsBottomOn(true);
         }}
         markingType="multi-dot"
-        markedDates={{
-          "2024-07-13": {
-            dots: [{ color: "black" }, { color: "green" }],
-          },
-        }}
+        markedDates={getCalendarData(scheduleList)}
         style={{
           marginTop: isBottomOn ? 0 : 60,
           borderBottomWidth: 1,

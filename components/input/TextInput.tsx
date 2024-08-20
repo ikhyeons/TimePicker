@@ -18,8 +18,10 @@ const TextInput = (props: {
   value: string;
   multiline?: boolean;
   numOfLine?: number;
+  fontSize?: number;
   onSubmit?: () => void;
   onChangeText?: (string: string) => void;
+  onFocus?: () => void;
 }) => {
   return (
     <SInputContainer>
@@ -30,6 +32,7 @@ const TextInput = (props: {
         value={props.value}
         returnKeyType="next"
         onSubmitEditing={props.onSubmit}
+        onFocus={props.onFocus}
         onChangeText={props.onChangeText}
         numberOfLines={props.numOfLine}
       />
