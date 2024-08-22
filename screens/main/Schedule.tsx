@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, Text } from "react-native";
+import { FlatList, Text, TouchableOpacity } from "react-native";
 import { MainBTNFC } from "../../types/Navigation";
 import styled from "styled-components/native";
 import Timeline from "react-native-timeline-flatlist";
@@ -63,7 +63,7 @@ const BottomModalWrap = styled.View`
   position: absolute;
   width: ${FULL_WIDTH}px;
   bottom: 0px;
-  height: ${HALF_HEIGHT}px;
+  height: ${(HALF_HEIGHT * 4) / 5}px;
   background-color: white;
   justify-content: space-between;
 `;
@@ -99,7 +99,7 @@ const MainComponentWrap = styled.View`
   justify-content: end;
   align-items: end;
   width: ${HALF_WIDTH * 1.6}px;
-  height: ${HALF_HEIGHT}px;
+  height: ${(HALF_HEIGHT * 4) / 5}px;
 `;
 
 const AddScheduleContainer = styled.View`
@@ -125,7 +125,34 @@ const InputTimeBtn = styled.TouchableOpacity`
 const InputTimeBtnText = styled.Text``;
 
 const FirstRoute = () => {
-  const scheduleList = useScheduleStore((state) => state.scheduleList);
+  const today = `${new Date().getFullYear()}-${(
+    new Date().getMonth() +
+    1 +
+    ""
+  ).padStart(2, "0")}-${(new Date().getDate() + "").padStart(2, "0")}`;
+  const scheduleList = useScheduleStore((state) =>
+    state.scheduleList
+      .filter((data) => {
+        console.log(data.date);
+        console.log(today);
+        return data.date == today;
+      })
+      .sort((a, b) => {
+        const ah = a.time.split(" ")[0].slice(0, -1);
+        const am = a.time.split(" ")[1].slice(0, -1);
+
+        const bh = b.time.split(" ")[0].slice(0, -1);
+        const bm = b.time.split(" ")[1].slice(0, -1);
+
+        if (ah == bh) {
+          if (am > bm) return 1;
+          else if (am == bm) return 0;
+          else return -1;
+        } else if (ah > bh) {
+          return 1;
+        } else return -1;
+      })
+  );
   const [isModal, setIsModal] = useState(false);
   const [isAddModal, setIsAddModal] = useState(false);
   const [refData, setRefData] = useState<ISchedule | null>(null);
@@ -271,10 +298,20 @@ const SecondRoute = () => {
             </ModalHeader>
             <FlatList
               overScrollMode="never"
+              ItemSeparatorComponent={() => (
+                <View
+                  style={{ borderBottomWidth: 1, borderColor: "lightgrey" }}
+                />
+              )}
+              ListFooterComponent={
+                <View
+                  style={{ borderBottomWidth: 1, borderColor: "lightgrey" }}
+                />
+              }
               style={{ padding: 10, flex: 1, paddingVertical: 0 }}
-              data={scheduleList}
+              data={scheduleList.filter((data) => data.date == selectedDateNum)}
               renderItem={({ item, index }) => (
-                <>
+                <TouchableOpacity>
                   <Text style={{ fontSize: 16, fontWeight: 600 }}>
                     {item.time} &nbsp;
                     {item.title}
@@ -291,7 +328,7 @@ const SecondRoute = () => {
                   >
                     {item.description}
                   </Text>
-                </>
+                </TouchableOpacity>
               )}
             />
             <AddScheduleBtn

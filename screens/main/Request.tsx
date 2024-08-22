@@ -67,9 +67,7 @@ const Request: MainBTNFC<"Request"> = () => {
     queryFn: () => {
       return getReceiveRequest(token as string);
     },
-    onSuccess: (data) => {
-      console.log(data);
-    },
+    onSuccess: (data) => {},
   });
 
   const navigation = useNavigation<RootSNFC<"TabNav">>();

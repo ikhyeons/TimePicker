@@ -33,9 +33,7 @@ const History = () => {
     queryFn: () => {
       return getSendRequest(token as string);
     },
-    onSuccess: (data) => {
-      console.log("sendRequest : ", data);
-    },
+    onSuccess: (data) => {},
   });
 
   const {
@@ -47,9 +45,7 @@ const History = () => {
     queryFn: () => {
       return getReceiveRequest(token as string);
     },
-    onSuccess: (data) => {
-      console.log("receiveRequest : ", data);
-    },
+    onSuccess: (data) => {},
   });
 
   const AllResponse = sendRequestList?.concat(receiveRequestList as IRequest[]);

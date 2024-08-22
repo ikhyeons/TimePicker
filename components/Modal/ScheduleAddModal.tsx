@@ -121,6 +121,7 @@ const ScheduleAddModal = (props: {
               );
             } else {
             }
+            props.setVisible(false);
           }}
         />
       </MainComponentWrap>
