@@ -1,5 +1,11 @@
 import { BASE_URL } from "../secrets/apiURL";
 
+export function findMember(mid: string) {
+  return fetch(`${BASE_URL}/member/find?mid=${mid}`)
+    .then((res) => res.json())
+    .then((res) => res);
+}
+
 export function login(username: string, password: string) {
   const formData = new FormData();
   formData.append("username", username);

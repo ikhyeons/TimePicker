@@ -10,7 +10,9 @@ import { View } from "react-native";
 
 import MaterialIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import AntdIcon from "react-native-vector-icons/AntDesign";
+import FAIcon from "react-native-vector-icons/FontAwesome6";
 import EntypeIcon from "react-native-vector-icons/Entypo";
+import Setting from "../screens/main/Setting";
 
 const Tab = createMaterialBottomTabNavigator<NavigationParam.Main>();
 const TabNavigator = () => {
@@ -85,6 +87,22 @@ const TabNavigator = () => {
           ),
         }}
         component={Group}
+      />
+      <Tab.Screen
+        name="Setting"
+        options={{
+          title: "세팅",
+          tabBarIcon: ({ focused }) => (
+            <View>
+              <FAIcon
+                name="user-gear"
+                color={`${focused ? "black" : "#b7b7b7"}`}
+                size={26}
+              />
+            </View>
+          ),
+        }}
+        component={Setting}
       />
     </Tab.Navigator>
   );

@@ -14,7 +14,7 @@ const Text = styled.Text`
   color: black;
 `;
 
-const Header = styled.View`
+const Header = styled.TouchableOpacity`
   flex-direction: row;
   height: 50px;
   background-color: red;

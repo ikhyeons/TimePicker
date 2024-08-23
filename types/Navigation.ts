@@ -10,6 +10,7 @@ export namespace NavigationParam {
     Request: undefined;
     History: undefined;
     Group: undefined;
+    Setting: undefined;
   };
 
   export type Root = {

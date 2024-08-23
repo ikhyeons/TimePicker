@@ -11,6 +11,7 @@ interface States {
 interface Actions {
   setToken: (token: string) => void;
   setLogin: () => void;
+  setLogout: () => void;
 }
 
 export const useUserStore = create<States & Actions>((set) => ({
@@ -20,5 +21,5 @@ export const useUserStore = create<States & Actions>((set) => ({
 
   setToken: (token: string) => set((state) => ({ token })),
   setLogin: () => set((state) => ({ isLogin: true })),
-  setlogout: () => set((state) => ({ isLogin: false })),
+  setLogout: () => set((state) => ({ isLogin: false })),
 }));

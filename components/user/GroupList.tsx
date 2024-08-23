@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import userGroup from "../../dummyData/userGroup";
 import { DraxList } from "react-native-drax";
 
-const Header = styled.View`
+const Header = styled.TouchableOpacity`
   flex-direction: row;
   height: 50px;
   background-color: red;
