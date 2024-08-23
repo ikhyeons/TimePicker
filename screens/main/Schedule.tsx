@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, Text, TouchableOpacity } from "react-native";
+import { FlatList, Text, TouchableOpacity, Alert } from "react-native";
 import { MainBTNFC } from "../../types/Navigation";
 import styled from "styled-components/native";
 import Timeline from "react-native-timeline-flatlist";
@@ -218,7 +218,9 @@ const SecondRoute = () => {
   const [scheduleTime, setScheduleTime] = useState("");
   const [scheduleTitle, setScheduleTitle] = useState("");
   const [scheduleDescription, setScheduleDescription] = useState("");
+  const [isdeleteModal, setIsDeleteModal] = useState(false);
 
+  const removeSchedule = useScheduleStore((state) => state.removeSchedule);
   const scheduleList = useScheduleStore((state) => state.scheduleList);
   const addSchedule = useScheduleStore((state) => state.addSchedule);
 
@@ -311,7 +313,26 @@ const SecondRoute = () => {
               style={{ padding: 10, flex: 1, paddingVertical: 0 }}
               data={scheduleList.filter((data) => data.date == selectedDateNum)}
               renderItem={({ item, index }) => (
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    Alert.alert(
+                      "이 일정을 삭제하시겠습니까?",
+                      "",
+                      [
+                        { text: "아니오", onPress: () => {} },
+                        {
+                          text: "예",
+                          onPress: () => {
+                            removeSchedule(item.id);
+                          },
+                        },
+                      ],
+                      {
+                        cancelable: false,
+                      }
+                    );
+                  }}
+                >
                   <Text style={{ fontSize: 16, fontWeight: 600 }}>
                     {item.time} &nbsp;
                     {item.title}
